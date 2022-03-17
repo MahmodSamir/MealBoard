@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -152,6 +153,13 @@ class _RegisterState extends State<Register> {
                               });
                               try{
                                 await _auth.createUserWithEmailAndPassword(email: email, password: password);
+                                FirebaseFirestore.instance.collection("users").doc(email).set({
+                              'firstName': first_name,
+                              'lastName' : last_name,
+                              'email' : email,
+                              'Mobile': mobile,
+                            }
+                            );
                                 Navigator.push(context, MaterialPageRoute(builder : (context)=> Login()));
                                 setState(() {
                                   spinner = false;

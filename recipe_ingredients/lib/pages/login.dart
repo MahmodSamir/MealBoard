@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:recipe_ingredients/main.dart';
 // ignore: import_of_legacy_library_into_null_safe
 //import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:recipe_ingredients/pages/Recipes.dart';
@@ -8,6 +9,7 @@ import 'package:recipe_ingredients/pages/Recipes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:recipe_ingredients/pages/filterCategories.dart';
+import 'package:recipe_ingredients/pages/navigationBar.dart';
 //import 'package:untitled/home.dart';
 import 'adminAdd.dart';
 import 'register.dart';
@@ -107,12 +109,15 @@ class _LoginState extends State<Login> {
                             setState(() {
                               spinner = false;
                             });
+                            
                             if(
                             email =='admin@gmail.com'
                             ){
+                                await _auth.signInWithEmailAndPassword(
+                                  email: email, password: password);
                               Navigator.push(
                                   context, MaterialPageRoute
-                                (builder : (context)=>Add()
+                                (builder : (context)=>MyApp()
                               )
                               );
 

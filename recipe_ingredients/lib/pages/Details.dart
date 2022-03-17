@@ -1,14 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../dummy_data.dart';
+import 'imgEdit.dart';
+import 'ingEdit.dart';
+import 'stepsEdit.dart';
 
 class Details extends StatelessWidget {
     final String ing;
     final String steps;
     final String url;
     final String name;
-  const Details(this.name, this.url, this.ing, this.steps);
-  
+    final String category;
+    final String docID;
+
+   Details(this.name, this.url, this.ing, this.steps, this.category, this.docID);  
   
 
   Widget buildSectionTitle(BuildContext ctx, String text) {
@@ -35,7 +41,12 @@ class Details extends StatelessWidget {
     );
   }
 
-
+    var _auth = FirebaseAuth.instance;
+    var logedInUSer;
+    getCuurrentUser() {
+      User? user = _auth.currentUser?.email as User?;
+      logedInUSer = user?.email;
+    }
   @override
   Widget build(BuildContext context) {
   //  final mealID = ModalRoute.of(context)!.settings.arguments as String;
@@ -56,7 +67,32 @@ class Details extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            buildSectionTitle(context, "Ingredients"),
+                         Visibility(
+             child: IconButton(
+                      padding:EdgeInsets.symmetric(horizontal:320),
+                      iconSize: 45,
+                      onPressed:()=> Navigator.push(
+                       context,
+                        MaterialPageRoute(builder: (context) =>   imgEdit(category, docID, name))).then((value) => Navigator.of(context).pop()),
+                      icon: Icon(Icons.photo_camera_back_outlined),
+                      ),
+             visible:  _auth.currentUser?.email =='admin@gmail.com'? true: false
+            ),
+
+            Row(
+               mainAxisAlignment: MainAxisAlignment.center,
+              children: [buildSectionTitle(context, "Ingredients"),
+               Visibility(
+             child: IconButton(
+                      onPressed:()=> Navigator.push(
+                       context,
+                        MaterialPageRoute(builder: (context) =>   ingEdit(category, docID, name))).then((value) => Navigator.of(context).pop()),
+                      icon: Icon(Icons.edit),
+                      ),
+             visible:  _auth.currentUser?.email =='mahmoud@gmail.com'? true: false
+            ),  
+              ],
+              ),
             buildContainer(
               ListView.builder(
                 itemBuilder: (ctx, index) => 
@@ -80,8 +116,22 @@ class Details extends StatelessWidget {
                itemCount: 1,
               ),
             ),
-            buildSectionTitle(context, "Steps"),
-            buildContainer( ListView.builder(
+           
+            Row(
+               mainAxisAlignment: MainAxisAlignment.center,
+              children: [buildSectionTitle(context, "Steps"),
+               Visibility(
+             child: IconButton(
+                      onPressed:()=> Navigator.push(
+                       context,
+                        MaterialPageRoute(builder: (context) =>   stepsEdit(category, docID, name))).then((value) => Navigator.of(context).pop()),
+                      icon: Icon(Icons.edit),
+                      ),
+             visible:  _auth.currentUser?.email =='mahmoud@gmail.com'? true: false
+            ),  
+              ],
+              ),           
+               buildContainer( ListView.builder(
                 itemBuilder: (ctx, index) => Column(
                   children: [
                     ListTile(

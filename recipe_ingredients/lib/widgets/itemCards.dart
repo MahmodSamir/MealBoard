@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_ingredients/pages/Details.dart';
+import 'package:favorite_button/favorite_button.dart';
+import 'package:recipe_ingredients/pages/Edit.dart';
+
 
 class itemCards extends StatelessWidget {
   final String imageUrl;
@@ -7,15 +12,54 @@ class itemCards extends StatelessWidget {
   final String duration;
   final String ing;
   final String steps;
+  final String category;
+  final String docID;
 
-  const itemCards(@required this.imageUrl,@required this.title, @required this.duration, this.ing, this.steps);
+   itemCards(@required this.imageUrl,@required this.title, @required this.duration, this.ing, this.steps, this.category,this.docID);
+
+    bool isfav = false; 
 
   void selectMeal(BuildContext ctx) {
      Navigator.push(
     ctx,
-    MaterialPageRoute(builder: (context) =>  Details(title, imageUrl, ing, steps)),
+    MaterialPageRoute(builder: (context) =>  Details(title, imageUrl, ing, steps, category, docID)),
   );
   }
+
+  Future addToFavorite() async{
+    isfav = true; 
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    var currentUser = auth.currentUser;
+    CollectionReference collectionRef = FirebaseFirestore.instance.collection("users-favorites");
+    return collectionRef.doc(currentUser!.email).collection("items").doc(title).set({
+      'url': imageUrl,
+      'Recipe' : steps,
+      'Ingredients' : ing,
+      'RecipeName': title,
+      'RecipeTime': duration,
+    }).then((value) => print(isfav)); 
+  }
+
+    Future unFavorite() async{
+    isfav = false;
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    var currentUser = auth.currentUser;
+    CollectionReference collectionRef = FirebaseFirestore.instance.collection("users-favorites");
+    return collectionRef.doc(currentUser!.email).collection("items").doc(title).delete().then((value) => print(isfav));
+  }
+
+    Future delete() async{
+    CollectionReference collectionRef = FirebaseFirestore.instance.collection("Items");
+    return collectionRef.doc(category).collection(category).doc(docID).delete();
+  }
+
+   var _auth = FirebaseAuth.instance;
+    var logedInUSer;
+    getCuurrentUser() {
+      User? user = _auth.currentUser?.email as User?;
+      logedInUSer = user?.email;
+    }
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,9 +112,33 @@ class itemCards extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Icon(Icons.favorite_border_outlined),
+                      FavoriteButton(
+                   //     isFavorite: true,
+                        iconColor: Colors.red,
+                        iconDisabledColor: Colors.black,
+                          valueChanged: (_isFavorite) {
+                            if(isfav==false){ 
+                               addToFavorite();
+                            }
+                            else if(isfav==true){
+                              unFavorite();
+                            }
+                          },
+                        ),
                     ],
                   ),
+                   Visibility(
+             child:Row(
+                   children:[
+                     IconButton(
+                      onPressed:()=> delete(),
+                      icon: Icon(Icons.delete),
+                      ),
+                    ],
+                  ),
+             visible:  _auth.currentUser?.email =='mahmoud@gmail.com'? true: false
+            ),
+             
                 ],         
               ),
               ),

@@ -3,12 +3,15 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_ingredients/dummy_data.dart';
 import 'package:recipe_ingredients/models/meal.dart';
+import 'package:recipe_ingredients/pages/home.dart';
+import 'package:recipe_ingredients/pages/myProfile.dart';
 import 'package:recipe_ingredients/pages/navigationBar.dart';
 import './pages/mealDetails.dart';
 import './pages/navBar.dart';
 import './pages/categoryMeals.dart';
 import './pages/filterCategories.dart';
 import './pages/Favorite.dart';
+import 'pages/account.dart';
 import 'pages/addRecipe.dart';
 import 'pages/adminAdd.dart';
 import 'pages/Recipes.dart';
@@ -74,6 +77,8 @@ class _MyAppState extends State<MyApp> {
         '/reg': (context) => Register(),
         '/srch': (context) => Search(),
         '/navBar': (context) => bottomNavBar(),
+        '/Prof': (context) => Account(),
+        '/home': (context) => Home(),
       },
     );
   }
@@ -122,6 +127,14 @@ class _MyHomePageState extends State<MyHomePage> {
             RaisedButton(
               child: Text("To bottom"),
               onPressed: () => Navigator.pushNamed(context, '/navBar'),
+            ),
+             RaisedButton(
+              child: Text("To Profile"),
+              onPressed: () => Navigator.pushNamed(context, '/Prof'),
+            ),
+             RaisedButton(
+              child: Text("To Home"),
+              onPressed: () => Navigator.pushNamed(context, '/home'),
             )
           ],
         ));

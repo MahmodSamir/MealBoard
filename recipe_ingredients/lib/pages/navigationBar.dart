@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_ingredients/pages/addRecipe.dart';
+import 'package:recipe_ingredients/pages/favorites.dart';
 import 'package:recipe_ingredients/pages/search.dart';
-
+import 'chat.dart';
 import 'adminAdd.dart';
 import 'filterCategories.dart';
 import 'login.dart';
@@ -24,8 +25,8 @@ class _bottomNavBarState extends State<bottomNavBar> {
   void initState(){
    pages = [
     {
-      'page': Filter(),
-      'label': 'Home',
+      'page': Chat(),
+      'label': 'chats',
     },
     {
       'page': Filter(),
@@ -40,8 +41,8 @@ class _bottomNavBarState extends State<bottomNavBar> {
       'label': "profile", 
     },
      {
-      'page': Login(),
-      'label': "favoritse", 
+      'page': Favorites(),
+      'label': "favorite", 
     },
      {
       'page': Search(),
@@ -75,7 +76,7 @@ class _bottomNavBarState extends State<bottomNavBar> {
          items: const [
            BottomNavigationBarItem(
              icon: Icon(Icons.home),
-             label: "home"
+             label: "Chats"
              ),
            BottomNavigationBarItem(
              icon: Icon(Icons.filter_alt),
