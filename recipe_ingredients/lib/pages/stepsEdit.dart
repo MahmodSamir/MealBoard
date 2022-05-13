@@ -62,7 +62,7 @@ class _stepsEditState extends State<stepsEdit> {
                         Padding(padding: EdgeInsets.all(10)),
                         RaisedButton(
                           onPressed: () async {
-                            _firestore.collection("Items").doc(widget.category).collection(widget.category).doc(widget.docID).update({
+                            _firestore.collection("Items").doc(widget.country).collection(widget.country).doc(widget.category).collection(widget.category).doc(widget.docID).update({
                               'Recipe' : Recipe,
                             }
                             ).then((value) => Navigator.of(context).pop());

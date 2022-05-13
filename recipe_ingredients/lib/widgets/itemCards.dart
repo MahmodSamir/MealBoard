@@ -51,7 +51,7 @@ class itemCards extends StatelessWidget {
 
     Future delete() async{
     CollectionReference collectionRef = FirebaseFirestore.instance.collection("Items");
-    return collectionRef.doc(category).collection(category).doc(docID).delete();
+    return collectionRef.doc(country).collection(country).doc(category).collection(category).doc(docID).delete();
   }
 
    var _auth = FirebaseAuth.instance;

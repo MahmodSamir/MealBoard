@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_ingredients/pages/addRecipe.dart';
 import 'package:recipe_ingredients/pages/favorites.dart';
 import 'package:recipe_ingredients/pages/filtercountries.dart';
+import 'package:recipe_ingredients/pages/home.dart';
 import 'package:recipe_ingredients/pages/search.dart';
 import 'chat.dart';
 import 'adminAdd.dart';
@@ -47,6 +48,10 @@ class _bottomNavBarState extends State<bottomNavBar> {
      {
       'page': Search(),
       'label': "logout", 
+    },
+     {
+      'page': Home(),
+      'label': "home", 
     },
   ];
   super.initState();
@@ -97,6 +102,10 @@ class _bottomNavBarState extends State<bottomNavBar> {
               BottomNavigationBarItem(
              icon: Icon(Icons.logout),
              label: "logout"
+             ),
+               BottomNavigationBarItem(
+             icon: Icon(Icons.home),
+             label: "Home"
              ),
          ],
       ),  

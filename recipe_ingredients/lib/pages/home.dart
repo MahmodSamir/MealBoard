@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:recipe_ingredients/pages/countryItems.dart';
 import 'package:recipe_ingredients/widgets/itemCards.dart';
 
@@ -61,14 +62,25 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(cats[0]),),
-    body:  Stack(
-        children: [ 
-          Container(child:sfl1(),),
-          Container(child:sfl(),margin:EdgeInsets.only(top: 280),), 
+      appBar: AppBar(),
+    body: 
+             Stack(
+               children:[ Row(
+                   children: <Widget>[
+                     Expanded(
+                       child: SizedBox(
+                         height: 200.0,
+                         child: sfl1(),
+                         ),
+                       ),
+                   ],
+                     ),
+               
+      Container(child:sfl(),margin:EdgeInsets.only(top: 200),), 
 
-        ],
-      ) 
+               ],
+             ),
+      
     );
   }
  /* Widget _ok(){

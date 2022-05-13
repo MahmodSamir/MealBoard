@@ -35,10 +35,6 @@ class _ChatState extends State<Chat> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-
-        title: const Text('Caht'),
-      ),
       body: Column(
         children: [
           StreamBuilder<QuerySnapshot>(
