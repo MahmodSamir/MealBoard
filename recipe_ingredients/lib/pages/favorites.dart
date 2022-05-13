@@ -19,7 +19,7 @@ class Favorites extends StatelessWidget {
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context,i){
                   QueryDocumentSnapshot x = snapshot.data!.docs[i];
-                  return itemCards(x['url'], x['RecipeName'], x['RecipeTime'], x['Ingredients'], x['Recipe'],"cate","doc");
+                  return itemCards(x['url'], x['RecipeName'], x['RecipeTime'], x['Ingredients'], x['Recipe'],"cate","","doc");
                 });
             }
                 return Center(

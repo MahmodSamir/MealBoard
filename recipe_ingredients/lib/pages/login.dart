@@ -8,7 +8,7 @@ import 'package:recipe_ingredients/pages/Recipes.dart';
 //import 'package:untitled/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:recipe_ingredients/pages/filterCategories.dart';
+import 'package:recipe_ingredients/pages/filtercountries.dart';
 import 'package:recipe_ingredients/pages/navigationBar.dart';
 //import 'package:untitled/home.dart';
 import 'adminAdd.dart';
@@ -127,7 +127,7 @@ class _LoginState extends State<Login> {
                                   email: email, password: password);
                               Navigator.push(
                                   context, MaterialPageRoute
-                                (builder : (context)=>Filter()
+                                (builder : (context)=>FilterCountry()
                               )
                               );}
                           }

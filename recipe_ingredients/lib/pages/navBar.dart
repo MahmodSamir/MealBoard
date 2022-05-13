@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_ingredients/models/meal.dart';
 import 'package:recipe_ingredients/pages/categoryMeals.dart';
+import 'package:recipe_ingredients/pages/filtercountries.dart';
 import 'package:recipe_ingredients/pages/mealDetails.dart';
 import '/pages/Favorite.dart';
-import '/pages/filterCategories.dart';
 
 class NavBar extends StatefulWidget {
 //  const NavBar({ Key? key }) : super(key: key);
@@ -24,7 +24,7 @@ class _NavBarState extends State<NavBar> {
   void initState(){
    pages = [
     {
-      'page': Filter(),
+      'page': FilterCountry(),
       'label': 'Categories',
     },
     {

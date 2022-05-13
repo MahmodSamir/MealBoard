@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:recipe_ingredients/pages/countryItems.dart';
 import 'package:recipe_ingredients/widgets/itemCards.dart';
 
 class Home extends StatefulWidget {
@@ -10,20 +11,39 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<String> cats = ["بيتزا","مشويات","مأكولات بحرية","مشروبات ساخنة"];
+  List<String> cats = ["English","arabic","Egyptian"];
   //cats.shuffle();
   List<String> rtv=[];
- sfl (int num)
+
+ sfl ()
   {
       return StreamBuilder(
-          stream: FirebaseFirestore.instance.collectionGroup(cats[num]).snapshots(),
+          stream: FirebaseFirestore.instance.collection("Items").doc(cats[0]).collection(cats[0]).doc("meat").collection("meat").snapshots(),
           builder: (context,AsyncSnapshot<QuerySnapshot> snapshot) {
             if(snapshot.hasData){
               return ListView.builder(
-                itemCount: 1,
+                itemCount: 2,
                 itemBuilder: (context,i){
                   QueryDocumentSnapshot x = snapshot.data!.docs[i];
-                  return itemCards(x['url'], x['RecipeName'], x['RecipeTime'], x['Ingredients'], x['Recipe'],"مشويات",x.id);
+                  return itemCards(x['url'], x['RecipeName'], x['RecipeTime'], x['Ingredients'], x['Recipe'],"","",x.id);
+                });
+            }
+                return Center(
+                  child:CircularProgressIndicator());
+          },
+          );
+  }
+  sfl1 ()
+  {
+      return StreamBuilder(
+          stream: FirebaseFirestore.instance.collection("Items").snapshots(),
+          builder: (context,AsyncSnapshot<QuerySnapshot> snapshot) {
+            if(snapshot.hasData){
+              return ListView.builder(
+                itemCount: 3,
+                itemBuilder: (context,i){
+                  QueryDocumentSnapshot x = snapshot.data!.docs[i];
+                  return country_items(x.id);
                 });
             }
                 return Center(
@@ -37,19 +57,29 @@ class _HomeState extends State<Home> {
    //sfl();
     super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(cats[1]),),
-    body:  sfl(0),
-    
+      appBar: AppBar(title: Text(cats[0]),),
+    body:  Stack(
+        children: [ 
+          Container(child:sfl1(),),
+          Container(child:sfl(),margin:EdgeInsets.only(top: 280),), 
 
-     
-  
- 
-         
-      
+        ],
+      ) 
     );
   }
+ /* Widget _ok(){
+    return ListView.builder(
+      itemCount: 3,
+      itemExtent: 1000,
+     itemBuilder: (BuildContext context, int index){
+     return sfl();
+     },
+    );
+  }*/
 }
+
+

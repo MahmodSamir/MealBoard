@@ -9,9 +9,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class stepsEdit extends StatefulWidget {
   final String category;
+  final String country;
   final String docID;
   final String title;
-  const stepsEdit(this.category,  this.docID, this.title);
+  const stepsEdit(this.category, this.country, this.docID, this.title);
 
   @override
   _stepsEditState createState() => _stepsEditState();

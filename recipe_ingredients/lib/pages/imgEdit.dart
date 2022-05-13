@@ -9,10 +9,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class imgEdit extends StatefulWidget {
   final String category;
+  final String country;
   final String docID;
   final String title;
   
-  const imgEdit(this.category,  this.docID, this.title);
+  const imgEdit(this.category,  this.country,this.docID, this.title);
 
   @override
   _imgEditState createState() => _imgEditState();
@@ -97,7 +98,7 @@ class _imgEditState extends State<imgEdit> {
                         RaisedButton(
                           onPressed: () async {
                             await uploadPic(context);
-                            _firestore.collection("Items").doc(widget.category).collection(widget.category).doc(widget.docID).update({
+                            _firestore.collection("Items").doc(widget.country).collection(widget.country).doc(widget.category).collection(widget.category).doc(widget.docID).update({
                               'url': downloadUrl,
                             }
                             ).then((value) => 

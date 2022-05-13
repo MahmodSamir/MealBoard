@@ -13,16 +13,17 @@ class itemCards extends StatelessWidget {
   final String ing;
   final String steps;
   final String category;
+  final String country;
   final String docID;
 
-   itemCards(@required this.imageUrl,@required this.title, @required this.duration, this.ing, this.steps, this.category,this.docID);
+   itemCards(@required this.imageUrl,@required this.title, @required this.duration, this.ing, this.steps, this.category, this.country,this.docID);
 
     bool isfav = false; 
 
   void selectMeal(BuildContext ctx) {
      Navigator.push(
     ctx,
-    MaterialPageRoute(builder: (context) =>  Details(title, imageUrl, ing, steps, category, docID)),
+    MaterialPageRoute(builder: (context) =>  Details(title, imageUrl, ing, steps, category, country,docID)),
   );
   }
 
@@ -136,7 +137,7 @@ class itemCards extends StatelessWidget {
                       ),
                     ],
                   ),
-             visible:  _auth.currentUser?.email =='mahmoud@gmail.com'? true: false
+             visible:  _auth.currentUser?.email =='admin@gmail.com'? true: false
             ),
              
                 ],         

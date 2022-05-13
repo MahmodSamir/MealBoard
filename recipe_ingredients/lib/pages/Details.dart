@@ -12,9 +12,10 @@ class Details extends StatelessWidget {
     final String url;
     final String name;
     final String category;
+    final String country;
     final String docID;
 
-   Details(this.name, this.url, this.ing, this.steps, this.category, this.docID);  
+   Details(this.name, this.url, this.ing, this.steps, this.category, this.country,this.docID);  
   
 
   Widget buildSectionTitle(BuildContext ctx, String text) {
@@ -73,7 +74,7 @@ class Details extends StatelessWidget {
                       iconSize: 45,
                       onPressed:()=> Navigator.push(
                        context,
-                        MaterialPageRoute(builder: (context) =>   imgEdit(category, docID, name))).then((value) => Navigator.of(context).pop()),
+                        MaterialPageRoute(builder: (context) =>   imgEdit(category, country,docID, name))).then((value) => Navigator.of(context).pop()),
                       icon: Icon(Icons.photo_camera_back_outlined),
                       ),
              visible:  _auth.currentUser?.email =='admin@gmail.com'? true: false
@@ -86,10 +87,10 @@ class Details extends StatelessWidget {
              child: IconButton(
                       onPressed:()=> Navigator.push(
                        context,
-                        MaterialPageRoute(builder: (context) =>   ingEdit(category, docID, name))).then((value) => Navigator.of(context).pop()),
+                        MaterialPageRoute(builder: (context) =>   ingEdit(category, country,docID, name))).then((value) => Navigator.of(context).pop()),
                       icon: Icon(Icons.edit),
                       ),
-             visible:  _auth.currentUser?.email =='mahmoud@gmail.com'? true: false
+             visible:  _auth.currentUser?.email =='admin@gmail.com'? true: false
             ),  
               ],
               ),
@@ -124,10 +125,10 @@ class Details extends StatelessWidget {
              child: IconButton(
                       onPressed:()=> Navigator.push(
                        context,
-                        MaterialPageRoute(builder: (context) =>   stepsEdit(category, docID, name))).then((value) => Navigator.of(context).pop()),
+                        MaterialPageRoute(builder: (context) =>   stepsEdit(category, country,docID, name))).then((value) => Navigator.of(context).pop()),
                       icon: Icon(Icons.edit),
                       ),
-             visible:  _auth.currentUser?.email =='mahmoud@gmail.com'? true: false
+             visible:  _auth.currentUser?.email =='admin@gmail.com'? true: false
             ),  
               ],
               ),           

@@ -1,18 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
-import 'package:recipe_ingredients/pages/Recipes.dart';
-import 'package:recipe_ingredients/pages/filterCategories.dart';
-//import 'package:untitled/home.dart';
-import 'package:recipe_ingredients/pages/Recipes.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-
 import 'login.dart';
-
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);

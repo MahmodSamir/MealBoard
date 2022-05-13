@@ -9,10 +9,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ingEdit extends StatefulWidget {
   final String category;
+  final String country;
   final String docID;
   final String title;
   
-  const ingEdit(this.category,  this.docID, this.title );
+  const ingEdit(this.category,  this.country,this.docID, this.title );
 
   @override
   _ingEditState createState() => _ingEditState();
@@ -36,7 +37,7 @@ class _ingEditState extends State<ingEdit> {
             centerTitle: false,
             backgroundColor: Color(0xff174354),
             titleSpacing: 30,
-            title: Text("Edit ${widget.title} ingredients",style: TextStyle(fontSize: 30),
+            title: Text("Edit ${widget.category} ingredients",style: TextStyle(fontSize: 30),
             ),
           ),
           body: ModalProgressHUD(
@@ -60,10 +61,10 @@ class _ingEditState extends State<ingEdit> {
                         Padding(padding: EdgeInsets.all(10)),
                         RaisedButton(
                           onPressed: () async {
-                            _firestore.collection("Items").doc(widget.category).collection(widget.category).doc(widget.docID).update({
+                            _firestore.collection("Items").doc(widget.country).collection(widget.country).doc(widget.category).collection(widget.category).doc(widget.docID).update({
                               'Ingredients' : Ingredients,
                             }
-                            ).then((value) =>                     Navigator.of(context).pop()
+                            ).then((value) => Navigator.of(context).pop()
 );
                           },
                           child: Text('Update ingredients'),

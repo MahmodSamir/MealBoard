@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_ingredients/pages/addRecipe.dart';
 import 'package:recipe_ingredients/pages/favorites.dart';
+import 'package:recipe_ingredients/pages/filtercountries.dart';
 import 'package:recipe_ingredients/pages/search.dart';
 import 'chat.dart';
 import 'adminAdd.dart';
-import 'filterCategories.dart';
 import 'login.dart';
 import 'register.dart';
 
@@ -29,7 +29,7 @@ class _bottomNavBarState extends State<bottomNavBar> {
       'label': 'chats',
     },
     {
-      'page': Filter(),
+      'page': FilterCountry(),
       'label': "Categories", 
     },
      {

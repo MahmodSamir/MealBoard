@@ -3,13 +3,13 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_ingredients/dummy_data.dart';
 import 'package:recipe_ingredients/models/meal.dart';
+import 'package:recipe_ingredients/pages/filtercountries.dart';
 import 'package:recipe_ingredients/pages/home.dart';
 import 'package:recipe_ingredients/pages/myProfile.dart';
 import 'package:recipe_ingredients/pages/navigationBar.dart';
 import './pages/mealDetails.dart';
 import './pages/navBar.dart';
 import './pages/categoryMeals.dart';
-import './pages/filterCategories.dart';
 import './pages/Favorite.dart';
 import 'pages/account.dart';
 import 'pages/addRecipe.dart';
@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         'nav':  (context) => NavBar(_favoriteMeals),
         //'/fav': (context) => Favorite(),
-        '/fltr': (context) => Filter(),
+        '/fltr': (context) => FilterCountry(),
         '/ctgmls': (context) => categoryMeals(),
         '/dtls': (context) => mealDetails(favs, isfav),
         '/add': (context) => Add(),
