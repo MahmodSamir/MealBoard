@@ -31,7 +31,7 @@ class category_items extends StatelessWidget {
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         )),
         decoration: BoxDecoration(
-          color: Colors.teal[100],
+          color: Colors.teal[500],
           borderRadius: BorderRadius.circular(15),
         ),
       ),

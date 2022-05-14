@@ -36,6 +36,10 @@ class _AddState extends State<Add> {
   late var photo;
   late double long, lat;
   final picker = ImagePicker();
+  var ctrl1 = TextEditingController();
+  var ctrl2 = TextEditingController();
+  var ctrl3 = TextEditingController();
+  var ctrl4 = TextEditingController();
 
   @override
   void intistate() {
@@ -79,197 +83,217 @@ class _AddState extends State<Add> {
     return ModalProgressHUD(
       inAsyncCall: showSpinner,
       child: Scaffold(
+        backgroundColor: Colors.grey[300],
         appBar: AppBar(
-          centerTitle: false,
+          automaticallyImplyLeading: false,
+          centerTitle: true,
           backgroundColor: Color(0xff174354),
           titleSpacing: 30,
-          title: Text(
-            "Add a new item",
-            style: TextStyle(fontSize: 30),
+          title: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Text(
+              "أضف وصفة جديدة",
+          style: TextStyle(fontSize: 20),
+            ),
           ),
         ),
-        body: Form(
-          key: _formkey,
-          child: ListView(
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(padding: EdgeInsets.all(5)),
-                  Card(
-                      child: (_image != null)
-                          ? Image.file(
-                              _image,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.fill,
-                            )
-                          : Image(
-                              image: AssetImage('assets/profile.png'),
-                              width: 60,
-                              height: 60,
-                            )),
-                  InkWell(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Add Image',
-                          style: TextStyle(
-                            color: Colors.teal[600],
-                            decoration: TextDecoration.underline,
+        body: Directionality(
+          textDirection: TextDirection.rtl,
+          child: Form(
+            key: _formkey,
+            child: ListView(
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(padding: EdgeInsets.all(5)),
+                    Card(
+                        child: (_image != null)
+                            ? Image.file(
+                                _image,
+                                width: 120,
+                                height: 120,
+                                fit: BoxFit.fill,
+                              )
+                            : Image(
+                                image: AssetImage('assets/upload.png'),
+                                width: 80,
+                                height: 80,
+                              )),
+                    InkWell(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'أضف صورة',
+                            style: TextStyle(
+                              color: Colors.teal[600],
+                              decoration: TextDecoration.underline,
+                            ),
                           ),
-                        ),
-                        Icon(
-                          Icons.add_circle,
-                          color: Colors.teal[500],
-                        ),
-                      ],
-                    ),
-                    onTap: getImage,
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(20),
-                    child: TextFormField(
-                      validator: RequiredValidator(
-                          errorText: 'this field is required'),
-                      decoration: InputDecoration(
-                        labelText: 'Enter the Name',
-                        labelStyle: TextStyle(fontSize: 20),
+                          Icon(
+                            Icons.add_circle,
+                            color: Colors.teal[500],
+                          ),
+                        ],
                       ),
-                      maxLines: 1,
-                      onChanged: (val) {
-                        RecipeName = val;
-                      },
+                      onTap: getImage,
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(20),
-                    child: TextFormField(
-                      validator: RequiredValidator(
-                          errorText: 'this field is required'),
-                      decoration: InputDecoration(
-                        labelText: 'Enter the Time',
-                        labelStyle: TextStyle(fontSize: 20),
-                      ),
-                      maxLines: 1,
-                      keyboardType: TextInputType.number,
-                      onChanged: (val) {
-                        RecipeTime = val;
-                      },
-                    ),
-                    //
-                  ),
-                  Container(
+                    Container(
                       margin: EdgeInsets.all(20),
                       child: TextFormField(
+                        controller: ctrl1,
                         validator: RequiredValidator(
-                            errorText: 'this field is required'),
+                            errorText: 'خانة مطلوبة'),
                         decoration: InputDecoration(
-                          labelText: 'Enter the Ingredients',
+                          labelText: 'اسم الوصفة',
                           labelStyle: TextStyle(fontSize: 20),
+                          border: OutlineInputBorder(),
                         ),
-                        maxLines: 7,
+                        maxLines: 1,
                         onChanged: (val) {
-                          Ingredients = val;
+                          RecipeName = val;
                         },
-                      )),
-                  Container(
-                      margin: EdgeInsets.all(10),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(20),
                       child: TextFormField(
+                        controller: ctrl2,
                         validator: RequiredValidator(
-                            errorText: 'this field is required'),
+                            errorText: 'خانة مطلوبة'),
                         decoration: InputDecoration(
-                          labelText: 'Enter the Recipe',
+                          labelText: 'مدة التحضير',
                           labelStyle: TextStyle(fontSize: 20),
+                          border: OutlineInputBorder(),
                         ),
-                        maxLines: 7,
+                        maxLines: 1,
+                        keyboardType: TextInputType.number,
                         onChanged: (val) {
-                          Recipe = val;
+                          RecipeTime = val;
                         },
-                      )),
-                  Container(
-                      margin: EdgeInsets.all(20),
-                      child: Padding(
-                        padding: EdgeInsets.zero,
-                        child: DropdownButton<String>(
-                          isExpanded: true,
-                          value: country,
-                          hint: const Text('Enter the Country'),
-                          icon: Icon(Icons.keyboard_arrow_down),
+                      ),
+                      //
+                    ),
+                    Container(
+                        margin: EdgeInsets.all(20),
+                        child: TextFormField(
+                          controller: ctrl3,
+                          validator: RequiredValidator(
+                              errorText: 'خانة مطلوبة'),
+                          decoration: InputDecoration(
+                            labelText: 'المكونات',
+                            labelStyle: TextStyle(fontSize: 20),
+                            border: OutlineInputBorder(),
+                          ),
+                          maxLines: 7,
                           onChanged: (val) {
-                            setState(() {
-                              country = val;
-                            });
+                            Ingredients = val;
                           },
-                          items: <String>['Egyptian', 'English', 'arabic']
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              child: Text(value),
-                              value: value,
-                            );
-                          }).toList(),
-                        ),
-                      )),
-                  Container(
-                      margin: EdgeInsets.all(20),
-                      child: Padding(
-                        padding: EdgeInsets.zero,
-                        child: DropdownButton<String>(
-                          isExpanded: true,
-                          value: category,
-                          hint: Text('Enter the Category'),
-                          icon: Icon(Icons.keyboard_arrow_down),
+                        )),
+                    Container(
+                        margin: EdgeInsets.all(20),
+                        child: TextFormField(
+                          controller: ctrl4,
+                          validator: RequiredValidator(
+                              errorText: 'خانة مطلوبة'),
+                          decoration: InputDecoration(
+                            labelText: 'خطوات التحضير',
+                            labelStyle: TextStyle(fontSize: 20),
+                            border: OutlineInputBorder(),
+                          ),
+                          maxLines: 7,
                           onChanged: (val) {
-                            setState(() {
-                              category = val;
-                            });
+                            Recipe = val;
                           },
-                          items: <String>['Egyptian', 'English', 'meat']
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              child: Text(value),
-                              value: value,
-                            );
-                          }).toList(),
-                        ),
-                      )),
-                  Padding(padding: EdgeInsets.all(10)),
-                  ElevatedButton(
-                    onPressed: () async {
-                      (_formkey.currentState!.validate());
-                      await uploadPic(context);
-                      _firestore
-                        ..collection("Items")
-                            .doc(country)
-                            .collection(country)
-                            .doc(category)
-                            .collection(category)
-                            .add({
-                          'url': downloadUrl,
-                          'Recipe': Recipe,
-                          'Ingredients': Ingredients,
-                          'RecipeName': RecipeName,
-                          'RecipeTime': RecipeTime,
-                        });
-
-                      
-                       _firestore
-                           .collection("Items")
-                           .doc(country)
-                           .set({'dummy': country});
-                     _firestore
-                           .collection("Items").doc(country).collection(country)
-                           .doc(category)
-                          .set({'dummy': category});
-                    },
-
-                    child: Text('Upload Item'),
-                    style: ElevatedButton.styleFrom(primary: Colors.teal),
-                  ),
-                ],
-              )
-            ],
+                        )),
+                    Container(
+                        margin: EdgeInsets.all(20),
+                        child: Padding(
+                          padding: EdgeInsets.all(15),
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            value: country,
+                            hint: const Text('اختر البلد'),
+                            icon: Icon(Icons.keyboard_arrow_down),
+                            onChanged: (val) {
+                              setState(() {
+                                country = val;
+                              });
+                            },
+                            items: <String>['Egyptian', 'English', 'arabic']
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                child: Text(value),
+                                value: value,
+                              );
+                            }).toList(),
+                          ),
+                        )),
+                    Container(
+                        margin: EdgeInsets.all(20),
+                        child: Padding(
+                          padding: EdgeInsets.zero,
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            value: category,
+                            hint: Text('اختر القسم'),
+                            icon: Icon(Icons.keyboard_arrow_down),
+                            onChanged: (val) {
+                              setState(() {
+                                category = val;
+                              });
+                            },
+                            items: <String>['Egyptian', 'English', 'meat']
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                child: Text(value),
+                                value: value,
+                              );
+                            }).toList(),
+                          ),
+                        )),
+                    Padding(padding: EdgeInsets.all(15)),
+                    ButtonTheme(
+                      height: 100,
+                      minWidth: 200,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          (_formkey.currentState!.validate());
+                          await uploadPic(context);
+                          _firestore
+                            ..collection("Items")
+                                .doc(country)
+                                .collection(country)
+                                .doc(category)
+                                .collection(category)
+                                .add({
+                              'url': downloadUrl,
+                              'Recipe': Recipe,
+                              'Ingredients': Ingredients,
+                              'RecipeName': RecipeName,
+                              'RecipeTime': RecipeTime,
+                            }).then((value) => ctrl1.clear()).then((value) => ctrl2.clear()).then((value) => ctrl3.clear()).then((value) => ctrl4.clear());
+                            
+                          
+                           _firestore
+                               .collection("Items")
+                               .doc(country)
+                               .set({'dummy': country});
+                         _firestore
+                               .collection("Items").doc(country).collection(country)
+                               .doc(category)
+                              .set({'dummy': category});
+                        },
+                        child: Text('اضف العنصر',style: TextStyle(fontSize:20)),
+                        style: ElevatedButton.styleFrom(primary: Colors.teal)
+                        ,
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

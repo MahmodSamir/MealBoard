@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_ingredients/pages/account.dart';
 import 'package:recipe_ingredients/pages/addRecipe.dart';
 import 'package:recipe_ingredients/pages/favorites.dart';
 import 'package:recipe_ingredients/pages/filtercountries.dart';
@@ -26,33 +27,34 @@ class _bottomNavBarState extends State<bottomNavBar> {
   void initState(){
    pages = [
     {
+      'page': Home(),
+      'label': "الرئيسية", 
+    },
+    /*{
       'page': Chat(),
       'label': 'chats',
-    },
+    },*/
     {
       'page': FilterCountry(),
-      'label': "Categories", 
+      'label': "البلاد", 
     },
      {
       'page': Add(),
-      'label': "Add items", 
+      'label': "اضافة وصفة جديدة", 
     },
-     {
-      'page': Register(),
-      'label': "profile", 
-    },
-     {
+    {
       'page': Favorites(),
-      'label': "favorite", 
+      'label': "المفضلة", 
+    },
+     {
+      'page': Account(),
+      'label': "الحساب", 
     },
      {
       'page': Search(),
-      'label': "logout", 
+      'label': "بحث", 
     },
-     {
-      'page': Home(),
-      'label': "home", 
-    },
+     
   ];
   super.initState();
   }
@@ -66,46 +68,46 @@ class _bottomNavBarState extends State<bottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+   /*   appBar: AppBar(
         title: Text(pages[selectPageIndex]['label']),
         backgroundColor: Color(0xff174354),
-        ),
+        ),*/
 
       body: pages[selectPageIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
         onTap: selectPage,
         backgroundColor: Colors.white,
-        selectedItemColor: Colors.teal[300],
+        selectedItemColor: Colors.teal[500],
         unselectedItemColor: Colors.black,
         currentIndex: selectPageIndex,
          items: const [
-           BottomNavigationBarItem(
+               BottomNavigationBarItem(
+             icon: Icon(Icons.home),
+             label: "الرئيسية"
+             ),
+      /*     BottomNavigationBarItem(
              icon: Icon(Icons.home),
              label: "Chats"
-             ),
+             ),*/
            BottomNavigationBarItem(
              icon: Icon(Icons.filter_alt),
-             label: "Categories",
+             label: "الاقسام",
              ),
            BottomNavigationBarItem(
              icon: Icon(Icons.add),
-             label: "Add",
-             ),
-           BottomNavigationBarItem(
-             icon: Icon(Icons.account_circle),
-             label: "profile"
+             label: "اضافة",
              ),
               BottomNavigationBarItem(
              icon: Icon(Icons.favorite),
-             label: "favorite"
+             label: "المفضلة"
              ),
               BottomNavigationBarItem(
-             icon: Icon(Icons.logout),
-             label: "logout"
+             icon: Icon(Icons.account_circle),
+             label: "حسابي"
              ),
-               BottomNavigationBarItem(
-             icon: Icon(Icons.home),
-             label: "Home"
+              BottomNavigationBarItem(
+             icon: Icon(Icons.search),
+             label: "بحث"
              ),
          ],
       ),  

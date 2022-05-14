@@ -13,6 +13,7 @@ import 'package:recipe_ingredients/pages/navigationBar.dart';
 //import 'package:untitled/home.dart';
 import 'adminAdd.dart';
 import 'register.dart';
+
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -21,35 +22,40 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  late String email,password;
-  var _formkey=GlobalKey<FormState>();
+  late String email, password;
+  var _formkey = GlobalKey<FormState>();
   var _auth = FirebaseAuth.instance;
+  bool visiblityPassword = true;
   bool spinner = false;
-  var email_vaildator=MultiValidator([
+  var email_vaildator = MultiValidator([
     EmailValidator(errorText: 'Email not valid'),
     RequiredValidator(errorText: 'Email is required'),
-  ]
-  );
-  var password_validator=MultiValidator([
+  ]);
+  var password_validator = MultiValidator([
     RequiredValidator(errorText: 'Password is required'),
     MinLengthValidator(8, errorText: 'password must be at least 8 digits long'),
-    PatternValidator(r'(?=.*?[#?!@$%^&*-])', errorText: 'passwords must have at least one special character'),
-  ]
-  );
+    PatternValidator(r'(?=.*?[#?!@$%^&*-])',
+        errorText: 'passwords must have at least one special character'),
+  ]);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
+    //   bool visiblityPassword = true;
 
+    return Scaffold(
+      backgroundColor: Colors.grey[300],
+      appBar: AppBar(
+        centerTitle: true,
+        automaticallyImplyLeading: false,
         backgroundColor: Color(0xff174354),
-        titleSpacing: 30,
-        title: Text("Login",style: TextStyle(fontSize: 30),
+        title: Text(
+          "تسجيل الدخول",
+          style: TextStyle(fontSize: 20),
         ),
       ),
-      body: Builder(
-        builder: (context) {
+      body: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Builder(builder: (context) {
           return ModalProgressHUD(
             inAsyncCall: spinner,
             child: ListView(
@@ -58,127 +64,145 @@ class _LoginState extends State<Login> {
                 Form(
                     key: _formkey,
                     child: Column(
-                      children:
-                      [SizedBox(height: 40,),
+                      children: [
+                        SizedBox(
+                          height: 40,
+                        ),
                         TextFormField(
                           validator: email_vaildator,
-                          onChanged: (val){
-                            email =val ;
+                          onChanged: (val) {
+                            email = val;
                           },
                           decoration: const InputDecoration(
-                            hintText: "Email",
-                            labelText: "email",
+                            hintText: "البريد الالكتروني",
+                            labelText: "البريد الالكتروني",
                             border: OutlineInputBorder(),
                           ),
                         ),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         TextFormField(
                           keyboardType: TextInputType.text,
                           validator: password_validator,
-                          obscureText: true,
-                          onChanged: (val){
-                            password =val ;
+                          obscureText: visiblityPassword,
+                          onChanged: (val) {
+                            password = val;
                           },
-                          decoration: const InputDecoration(
-                            hintText: "Password",
-                            labelText: "Password",
+                          decoration: InputDecoration(
+                            hintText: "كلمة المرور",
+                            labelText: "كلمة المرور",
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                  visiblityPassword
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Colors.indigo),
+                              onPressed: () {
+                                setState(() {
+                                  //visiblityPassword? Icons.visibility : Icons.visibility_off;
+                                  visiblityPassword = !visiblityPassword;
+                                });
+                              },
+                            ),
                             border: OutlineInputBorder(),
                           ),
                         ),
-                        SizedBox(height: 20,),
-                        SizedBox(height: 40,),],
-                    )
-                ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                      ],
+                    )),
                 FlatButton(
-
-                    color: Colors.teal[300],
+                    color: Colors.teal[500],
                     padding: EdgeInsets.all(20),
-                    onPressed: ()async{
-                      if(_formkey.currentState!.validate()) {
-                        var connectivityResult = await (Connectivity()
-                            .checkConnectivity());
-                        if (connectivityResult != ConnectivityResult.mobile&&
+                    onPressed: () async {
+                      if (_formkey.currentState!.validate()) {
+                        var connectivityResult =
+                            await (Connectivity().checkConnectivity());
+                        if (connectivityResult != ConnectivityResult.mobile &&
                             connectivityResult != ConnectivityResult.wifi) {
-                          Scaffold.of(context).showSnackBar(
-                              SnackBar(content: Text('no internet connection')
-                              )
-                          );
-                        }
-                        else {
-                          try{
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                              content: Text('لا يوجد اتصال بالانترنت')));
+                        } else {
+                          try {
                             setState(() {
                               spinner = false;
                             });
-                            
-                            if(
-                            email =='admin@gmail.com'
-                            ){
-                                await _auth.signInWithEmailAndPassword(
-                                  email: email, password: password);
-                              Navigator.push(
-                                  context, MaterialPageRoute
-                                (builder : (context)=>MyApp()
-                              )
-                              );
 
-                            }
-                            else{
+                            if (email == 'admin@gmail.com') {
                               await _auth.signInWithEmailAndPassword(
                                   email: email, password: password);
                               Navigator.push(
-                                  context, MaterialPageRoute
-                                (builder : (context)=>FilterCountry()
-                              )
-                              );}
-                          }
-                          catch(e){
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => bottomNavBar()));
+                            } else {
+                              await _auth.signInWithEmailAndPassword(
+                                  email: email, password: password);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => bottomNavBar()));
+                            }
+                          } catch (e) {
                             setState(() {
                               spinner = false;
                             });
-                            if(e is FirebaseAuthException){
-                              if(e.code=='user-not-found'){
-                                Scaffold.of(context).showSnackBar(SnackBar(content: Text('user not found')
-                                ));
-                              }else if (e.code=='wrong-password'){
-                                Scaffold.of(context).showSnackBar(SnackBar(content: Text('wrong pasword')
-                                ));
+                            if (e is FirebaseAuthException) {
+                              if (e.code == 'user-not-found') {
+                                Scaffold.of(context).showSnackBar(SnackBar(
+                                    content: Text('مستخدم غير موجود')));
+                              } else if (e.code == 'wrong-password') {
+                                Scaffold.of(context).showSnackBar(SnackBar(
+                                    content: Text('كلمة المرور خاطئة')));
                               }
                             }
                           }
                         }
                       }
                     },
-                    child: Text
-                      ('Login',
-                      style: TextStyle(fontSize: 20),)),
-                SizedBox(height: 20,),
-                InkWell(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context)=> Register()),
-                    );
-                  },
-                  child: Row(children: [
-                    Text(
-                      'Don\'t have account?',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black38,),
-                    ),
-                    Text(
-                      'sign up',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.blue,),
-                    ),
-                  ],)
+                    child: Text(
+                      'الدخول',
+                      style: TextStyle(fontSize: 20),
+                    )),
+                SizedBox(
+                  height: 20,
                 ),
+                InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Register()),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          'لا تملك حساب؟',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black38,
+                          ),
+                        ),
+                        Text(
+                          'قم بانشاء حساب  ',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ],
+                    )),
               ],
             ),
           );
-        }
+        }),
       ),
     );
   }

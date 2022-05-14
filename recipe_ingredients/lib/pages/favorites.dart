@@ -11,19 +11,35 @@ class Favorites extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300],
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("المفضلة",
+          style: TextStyle(fontSize: 20),),
+        backgroundColor: Color(0xff174354),
+        automaticallyImplyLeading: false,
+      ),
       body:  StreamBuilder(
           stream: _firestore.collection("users-favorites").doc(auth.currentUser!.email).collection("items").snapshots(),
           builder: (context,AsyncSnapshot<QuerySnapshot> snapshot) {
-            if(snapshot.hasData){
+
+            if(!snapshot.hasData){
+
+              return Center(child: CircularProgressIndicator());
+            }
+            else if (snapshot.data?.size == 0) {
+                return Center(child: Text("!لا يوجد عناصر، اضف الان"));
+            }
+            else{
               return ListView.builder(
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context,i){
                   QueryDocumentSnapshot x = snapshot.data!.docs[i];
                   return itemCards(x['url'], x['RecipeName'], x['RecipeTime'], x['Ingredients'], x['Recipe'],"cate","","doc");
-                });
+                }
+                );
             }
-                return Center(
-                  child: CircularProgressIndicator());
+             
           },
           )
     );

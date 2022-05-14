@@ -10,7 +10,12 @@ class Filter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title:  Text(country)),
+      backgroundColor: Colors.grey[300],
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Color(0xff174354),
+        title:  Text(country,
+          style: TextStyle(fontSize: 20),)),
       body: StreamBuilder(
         stream: _firestore.collection("Items").doc(country).collection(country).snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {

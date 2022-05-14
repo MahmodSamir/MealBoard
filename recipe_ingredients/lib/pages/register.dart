@@ -33,165 +33,181 @@ class _RegisterState extends State<Register> {
   var mobileValidator=MultiValidator([
     RequiredValidator(errorText: 'Mobile is required'),
     MinLengthValidator(11, errorText: 'mobile is not valid'),
-
   ]);
+  bool visiblityPassword = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
-        centerTitle: false,
-
+        automaticallyImplyLeading: false,
         backgroundColor: Color(0xff174354),
-        titleSpacing: 30,
-        title: Text("Register",style: TextStyle(fontSize: 30),
-        ),
+        centerTitle: true,
+        title: Text("انشاء حساب جديد",style: TextStyle(fontSize: 20),
+          ),
       ),
-      body:  Builder(
-        builder: (context) {
-          return ModalProgressHUD(
-            inAsyncCall: spinner,
-            child: ListView(
-                  padding: EdgeInsets.all(15),
-                  children: [
-                    Form(
-                      key: _formkey,
-                        child: Column(
-                          children:
-                          [SizedBox(height: 40,),
-                            Text('Create a new account',style: TextStyle(fontSize: 20),),
-                            SizedBox(height: 20,),
-                            TextFormField(
-                              validator: nameValidator,
-                              onChanged: (val){
-                                first_name =val ;
-                              },
-                              decoration: const InputDecoration(
-                                hintText: "First Name",
-                                labelText: "First name",
-                                border: OutlineInputBorder(),
+      body:  Directionality(
+        textDirection: TextDirection.rtl,
+        child: Builder(
+          builder: (context) {
+            return ModalProgressHUD(
+              inAsyncCall: spinner,
+              child: ListView(
+                    padding: EdgeInsets.all(15),
+                    children: [
+                      Form(
+                        key: _formkey,
+                          child: Column(
+                            children:
+                            [SizedBox(height: 40,),
+                              Text('انشئ حساب جديد',style: TextStyle(fontSize: 20),),
+                              SizedBox(height: 20,),
+                              TextFormField(
+                                validator: nameValidator,
+                                onChanged: (val){
+                                  first_name =val ;
+                                },
+                                decoration: const InputDecoration(
+                                  hintText: "الاسم الاول",
+                                  labelText: "الاسم الاول",
+                                  border: OutlineInputBorder(),
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 20,),
-                            TextFormField(
-                              validator: nameValidator,
-                              onChanged: (val){
-                                last_name =val ;
-                              },
-                              decoration: const InputDecoration(
-                                hintText: "Last Name",
-                                labelText: "last name",
-                                border: OutlineInputBorder(),
+                              SizedBox(height: 20,),
+                              TextFormField(
+                                validator: nameValidator,
+                                onChanged: (val){
+                                  last_name =val ;
+                                },
+                                decoration: const InputDecoration(
+                                  hintText: "الاسم الاخير",
+                                  labelText: "اللقب",
+                                  border: OutlineInputBorder(),
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 20,),
-                            TextFormField(
-                              validator: emailVaildator,
-                              onChanged: (val){
-                                email =val ;
-                              },
-                              decoration: const InputDecoration(
-                                hintText: "Email",
-                                labelText: "email",
-                                border: OutlineInputBorder(),
+                              SizedBox(height: 20,),
+                              TextFormField(
+                                validator: emailVaildator,
+                                onChanged: (val){
+                                  email =val ;
+                                },
+                                decoration: const InputDecoration(
+                                  hintText: "البريد الالكتروني",
+                                  labelText: "البريد الالكتروني",
+                                  border: OutlineInputBorder(),
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 20,),
-                            TextFormField(
-                              keyboardType: TextInputType.text,
-                              validator: passwordValidator,
-                              obscureText: true,
-                              onChanged: (val){
-                                password =val ;
-                              },
-                              decoration: const InputDecoration(
-                                hintText: "Password",
-                                labelText: "Password",
-                                border: OutlineInputBorder(),
-                              ),
-                            ),
-                            SizedBox(height: 20,),
-                            TextFormField(
-                              validator: mobileValidator,
-                              keyboardType: TextInputType.phone,
-                              onChanged: (val){
-                                mobile =val ;
-                              },
-                              decoration: const InputDecoration(
-                                hintText: "Mobile",
-                                labelText: "Mobile",
-                                border: OutlineInputBorder(),
-                              ),
-                            ),
-                            SizedBox(height: 40,),],
-                        )
-                    ),
-                    FlatButton(
-                        color: Colors.teal[300],
-                        padding: EdgeInsets.all(20),
-                        onPressed: ()async{
-                          if(_formkey.currentState!.validate()) {
-                            var connectivityResult = await (Connectivity()
-                                .checkConnectivity());
-                            if (connectivityResult != ConnectivityResult.mobile&&
-                                connectivityResult != ConnectivityResult.wifi) {
-                               Scaffold.of(context).showSnackBar(
-                                   SnackBar(content: Text('no internet connection')
-                                   )
-                               );
-                            }
-                            else {
-                              setState(() {
-                                spinner= true;
-                              });
-                              try{
-                                await _auth.createUserWithEmailAndPassword(email: email, password: password);
-                                FirebaseFirestore.instance.collection("users").doc(email).set({
-                              'firstName': first_name,
-                              'lastName' : last_name,
-                              'email' : email,
-                              'Mobile': mobile,
-                            }
-                            );
-                                Navigator.push(context, MaterialPageRoute(builder : (context)=> Login()));
+                              SizedBox(height: 20,),
+                              TextFormField(
+                                keyboardType: TextInputType.text,
+                                validator: passwordValidator,
+                                obscureText: visiblityPassword,
+                                onChanged: (val){
+                                  password =val ;
+                                },
+                                decoration: InputDecoration(
+                                  hintText: "كلمة المرور",
+                                  labelText: "كلمة المرور",
+                                  suffixIcon: IconButton(
+                                     icon: Icon(
+                                  visiblityPassword
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Colors.indigo),
+                              onPressed: () {
                                 setState(() {
-                                  spinner = false;
+                                  //visiblityPassword? Icons.visibility : Icons.visibility_off;
+                                  visiblityPassword = !visiblityPassword;
                                 });
-                              }
-                              catch(e){
-                                setState(() {
-                                  spinner = false;
-                                });
-                                if(e is FirebaseAuthException){
-                                   if(e.code =='email-already-in-use'){
-                                     Scaffold.of(context).showSnackBar(SnackBar(content: Text('email already in use')
-                                     )
-                                     );
-                                   }
-                                }
-                              }
-
-                            }
-                          }
-                        },
-                        child: Text
-                          ('Register',
-                          style: TextStyle(fontSize: 20),)
-                    ),
-                    SizedBox(height: 10,),
-                    InkWell(
-                      onTap: (){ Navigator.pop(context);},
-                      child: Text(
-                        'already have account?',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                           fontSize: 20,
-                          color: Colors.blue,),
+                              },
+                            ),
+                                  border: OutlineInputBorder(),
+                                ),
+                              ),
+                              SizedBox(height: 20,),
+                              TextFormField(
+                                validator: mobileValidator,
+                                keyboardType: TextInputType.phone,
+                                onChanged: (val){
+                                  mobile =val ;
+                                },
+                                decoration: const InputDecoration(
+                                  hintText: "رقم الهاتف",
+                                  labelText: "رقم الهاتف",
+                                  border: OutlineInputBorder(),
+                                ),
+                              ),
+                              SizedBox(height: 40,),],
+                          )
                       ),
-                    )
-                  ],
-            ),
-          );
-        }
+                      FlatButton(
+                          color: Colors.teal[500],
+                          padding: EdgeInsets.all(20),
+                          onPressed: ()async{
+                            if(_formkey.currentState!.validate()) {
+                              var connectivityResult = await (Connectivity()
+                                  .checkConnectivity());
+                              if (connectivityResult != ConnectivityResult.mobile&&
+                                  connectivityResult != ConnectivityResult.wifi) {
+                                 Scaffold.of(context).showSnackBar(
+                                     SnackBar(content: Text('لا يوجد اتصال بالانترنت')
+                                     )
+                                 );
+                              }
+                              else {
+                                setState(() {
+                                  spinner= true;
+                                });
+                                try{
+                                  await _auth.createUserWithEmailAndPassword(email: email, password: password);
+                                  FirebaseFirestore.instance.collection("users").doc(email).set({
+                                'firstName': first_name,
+                                'lastName' : last_name,
+                                'email' : email,
+                                'Mobile': mobile,
+                              }
+                              );
+                                  Navigator.push(context, MaterialPageRoute(builder : (context)=> Login()));
+                                  setState(() {
+                                    spinner = false;
+                                  });
+                                }
+                                catch(e){
+                                  setState(() {
+                                    spinner = false;
+                                  });
+                                  if(e is FirebaseAuthException){
+                                     if(e.code =='email-already-in-use'){
+                                       Scaffold.of(context).showSnackBar(SnackBar(content: Text('البريد الالكتروني مستخدم بالفعل')
+                                       )
+                                       );
+                                     }
+                                  }
+                                }
+      
+                              }
+                            }
+                          },
+                          child: Text
+                            ('انشئ',
+                            style: TextStyle(fontSize: 20),)
+                      ),
+                      SizedBox(height: 10,),
+                      InkWell(
+                        onTap: (){ Navigator.pop(context);},
+                        child: Text(
+                          'هل تملك حساب بالفعل؟',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                             fontSize: 20,
+                            color: Colors.blue,),
+                        ),
+                      )
+                    ],
+              ),
+            );
+          }
+        ),
       ),
     );
   }

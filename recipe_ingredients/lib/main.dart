@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
-      home: MyHomePage(title: "",),
+      home: Login(),
       routes: {
         'nav':  (context) => NavBar(_favoriteMeals),
         //'/fav': (context) => Favorite(),

@@ -13,7 +13,13 @@ class Recipes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(category)),
+      backgroundColor: Colors.grey[300],
+        appBar: AppBar(
+          title: Text(category,
+          style: TextStyle(fontSize: 20),),
+          backgroundColor: Color(0xff174354),
+          centerTitle: true,
+        ),
         body: StreamBuilder(
           stream: _firestore
               .collection('Items')

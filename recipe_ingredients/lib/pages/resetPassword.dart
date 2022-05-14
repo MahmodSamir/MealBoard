@@ -14,59 +14,66 @@ class _ResetPasswordState extends State<ResetPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
-        centerTitle: false,
+        centerTitle: true,
         backgroundColor: Color(0xff174354),
-        titleSpacing: 30,
         title: Text(
-          "Reset Password",
-          style: TextStyle(fontSize: 30),
+          "اعادة تعيين كلمة المرور",
+          style: TextStyle(fontSize: 20),
         ),
       ),
-      body: ListView(
-
-        children: [
-          SizedBox(
-            height: 40,
-          ),
-          Form(
-
-            child: Padding(
-              padding: EdgeInsets.all(8),
-              child: TextFormField(
-                  validator: MultiValidator([
-                    EmailValidator(errorText: 'Email not valid'),
-                    RequiredValidator(errorText: 'Email is required'),
-                  ]),
-                  onChanged: (val) {
-                    email = val;
-                  },
-                  decoration: const InputDecoration(
-                    hintText: "Email",
-                    labelText: "email",
-                    border: OutlineInputBorder(),
-                  ),
-              ),
-
+      body: Directionality(
+        textDirection: TextDirection.rtl,
+        child: ListView(
+      
+          children: [
+            SizedBox(
+              height: 40,
             ),
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-                  FlatButton(
-                  color: Colors.teal[300],
-                  padding: EdgeInsets.symmetric(horizontal: 90),
-                  onPressed: (){
-                    _auth.sendPasswordResetEmail(email: email);
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('Send Request')),
-                ],
-          )
-        ],
+            Form(
+      
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child: TextFormField(
+                    validator: MultiValidator([
+                      EmailValidator(errorText: 'البريد الالكتروني غير صالح'),
+                      RequiredValidator(errorText: 'البريد الالكتروني مطلوب'),
+                    ]),
+                    onChanged: (val) {
+                      email = val;
+                    },
+                    decoration: const InputDecoration(
+                      hintText: "البريد الالكتروني",
+                      labelText: "البريد الالكتروني",
+                      border: OutlineInputBorder(),
+                    ),
+                ),
+      
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                    ButtonTheme(
+                      height:50,
+                      minWidth:80,
+                      child: FlatButton(
+                      color: Colors.teal[500],
+                      padding: EdgeInsets.symmetric(horizontal: 90),
+                      onPressed: (){
+                        _auth.sendPasswordResetEmail(email: email);
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('ارسل',style:TextStyle(color:Colors.white,fontSize: 20))),
+                    ),
+                  ],
+            )
+          ],
+        ),
       ),
     );
   }

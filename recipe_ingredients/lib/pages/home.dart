@@ -62,7 +62,19 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: Colors.grey[300],
+     appBar: AppBar(
+       centerTitle: true,
+      title: Row(
+        children:[
+           Image(image: AssetImage('assets/LogoGOLD.png'),fit: BoxFit.cover,height: 145,width: 145,alignment: Alignment.bottomRight,), 
+          Text("الرئيسية"),
+        ]
+      ),
+
+      backgroundColor: Color(0xff174354),
+      automaticallyImplyLeading: false,
+     ),
     body: 
              Stack(
                children:[ Row(
@@ -76,7 +88,7 @@ class _HomeState extends State<Home> {
                    ],
                      ),
                
-      Container(child:sfl(),margin:EdgeInsets.only(top: 200),), 
+      Container(child:sfl(),margin:EdgeInsets.only(top: 195),), 
 
                ],
              ),

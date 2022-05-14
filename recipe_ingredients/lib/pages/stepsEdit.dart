@@ -34,45 +34,53 @@ class _stepsEditState extends State<stepsEdit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300],
           appBar: AppBar(
-            centerTitle: false,
+            centerTitle: true,
             backgroundColor: Color(0xff174354),
-            titleSpacing: 30,
-            title: Text("Edit ${widget.title} steps",style: TextStyle(fontSize: 30),
+            title: Text("${widget.title} حدث طريقة التحضير لـ",style: TextStyle(fontSize: 20),
             ),
           ),
-          body: ModalProgressHUD(
-            inAsyncCall: showSpinner,
-            child: ListView(
-                  children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          child: TextField(
-                            decoration: InputDecoration(
-                              labelText: 'Enter the Recipe',
-                              labelStyle:TextStyle(fontSize: 20),
+          body: Directionality(
+            textDirection: TextDirection.rtl,
+            child: ModalProgressHUD(
+              inAsyncCall: showSpinner,
+              child: ListView(
+                    children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.all(30),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                labelText: 'ادخل طريقة التحضير',
+                                labelStyle:TextStyle(fontSize: 20),
+                                border: OutlineInputBorder(),
+                              ),
+                              maxLines: 7,
+                              onChanged: (val){
+                                Recipe =val;
+                              },
                             ),
-                            maxLines: 7,
-                            onChanged: (val){
-                              Recipe =val;
-                            },
                           ),
-                        ),
-            
-                        Padding(padding: EdgeInsets.all(10)),
-                        RaisedButton(
-                          onPressed: () async {
-                            _firestore.collection("Items").doc(widget.country).collection(widget.country).doc(widget.category).collection(widget.category).doc(widget.docID).update({
-                              'Recipe' : Recipe,
-                            }
-                            ).then((value) => Navigator.of(context).pop());
-                          },
-                          child: Text('Update Steps'),
-                          color: Colors.teal[500],
-                        ),
-                      ],
-                    )
-                ),
+              
+                          Padding(padding: EdgeInsets.all(30)),
+                          ButtonTheme(
+                            height:60,
+                            minWidth: 80,
+                            child: RaisedButton(
+                              onPressed: () async {
+                                _firestore.collection("Items").doc(widget.country).collection(widget.country).doc(widget.category).collection(widget.category).doc(widget.docID).update({
+                                  'Recipe' : Recipe,
+                                }
+                                ).then((value) => Navigator.of(context).pop());
+                              },
+                              child: Text('حدث الطريقة',style:TextStyle(color:Colors.white,fontSize:20)),
+                              color: Colors.teal[500],
+                            ),
+                          ),
+                        ],
+                      )
+                  ),
+          ),
             );
   }
 }
