@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:recipe_ingredients/widgets/itemCards.dart';
 
 import 'dataControl.dart';
 
@@ -21,12 +22,15 @@ class _SearchState extends State<Search> {
     Widget searchedData() {
       return ListView.builder(
         itemCount: snapshotData.docs.length,
-        itemBuilder: (BuildContext context, int index) {
+        itemBuilder: (BuildContext context, int i) {
           return GestureDetector(
             onTap: (){
 
             },
-            child: ListTile(
+            child:itemCards((snapshotData.docs[i].data() as dynamic)['url'],(snapshotData.docs[i].data() as dynamic)['RecipeName'],
+            (snapshotData.docs[i].data() as dynamic)['RecipeTime'],
+            (snapshotData.docs[i].data() as dynamic)['Ingredients'],(snapshotData.docs[i].data() as dynamic)['Recipe'],"","","") 
+            /*ListTile(
               leading: CircleAvatar(backgroundImage: NetworkImage(
                 (snapshotData.docs[index].data()as dynamic) ['url'],
               ),),
@@ -37,7 +41,7 @@ class _SearchState extends State<Search> {
                     fontSize: 25
                 ),
               ),
-            ),
+            ),*/
           );
         },
       );
@@ -61,8 +65,10 @@ class _SearchState extends State<Search> {
             automaticallyImplyLeading: false,
             backgroundColor: Color(0xff174354),
             title: TextField(
+              style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: 'ادخل الاسم',
+                hintStyle: TextStyle(color: Colors.white)
               ),
               controller: searchController,
             ),

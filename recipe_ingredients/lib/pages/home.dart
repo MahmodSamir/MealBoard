@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:recipe_ingredients/pages/countryItems.dart';
+import 'package:recipe_ingredients/widgets/card.dart';
 import 'package:recipe_ingredients/widgets/itemCards.dart';
 
 class Home extends StatefulWidget {
@@ -44,7 +45,7 @@ class _HomeState extends State<Home> {
                 itemCount: 3,
                 itemBuilder: (context,i){
                   QueryDocumentSnapshot x = snapshot.data!.docs[i];
-                  return country_items(x.id);
+                  return country_items(x.id,x['img']);
                 });
             }
                 return Center(

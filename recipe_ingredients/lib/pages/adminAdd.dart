@@ -214,6 +214,7 @@ class _AddState extends State<Add> {
                           child: Padding(
                             padding: EdgeInsets.zero,
                             child: DropdownButton<String>(
+                              menuMaxHeight: 300,
                               isExpanded: true,
                               value: country,
                               hint: const Text('اختر البلد'),
@@ -237,6 +238,7 @@ class _AddState extends State<Add> {
                           child: Padding(
                             padding: EdgeInsets.zero,
                             child: DropdownButton<String>(
+                              menuMaxHeight: 200,
                               isExpanded: true,
                               value: category,
                               hint: Text('اختر القسم'),

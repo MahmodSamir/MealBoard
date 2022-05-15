@@ -4,12 +4,9 @@ import 'filterCategory.dart';
 
 class country_items extends StatelessWidget {
   final String title;
+  final String img;
 
-/*   final String id;
-
-  final Color color; */
-  //recieve title parameter
-  country_items(this.title);
+  country_items(this.title, this.img);
 
   void selectcountry(BuildContext ctx) {
     Navigator.push(
@@ -33,6 +30,7 @@ class country_items extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Image.network(img, height: 40, width: 60,fit:BoxFit.cover),
               Text(
                 title,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

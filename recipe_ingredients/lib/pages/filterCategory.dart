@@ -32,7 +32,7 @@ class Filter extends StatelessWidget {
                 QueryDocumentSnapshot x = snapshot.data!.docs[i];
                 print(x.id);
                 //Search(x.id);
-                return category_items(x.id, country);
+                return category_items(x.id, country,x['img']);
               },
               itemCount: snapshot.data!.docs.length,
             );
