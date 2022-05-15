@@ -17,7 +17,7 @@ class DataController extends GetxController{
     List<String> l = ["بيتزا","مشويات","مأكولات بحرية","مشروبات ساخنة"];
     l.shuffle();
     var ls = l.first;
-    return FirebaseFirestore.instance.collection('Items').doc(ls).collection(ls).where('Ingredients', isEqualTo: qurryString).get();
+    return FirebaseFirestore.instance.collection('Items').doc("مصر").collection("مصر").doc("دجاج").collection("دجاج").where('RecipeName', isEqualTo: qurryString).get();
     
   }
 }

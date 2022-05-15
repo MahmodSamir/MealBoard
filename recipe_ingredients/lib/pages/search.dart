@@ -44,48 +44,51 @@ class _SearchState extends State<Search> {
     }
     return Directionality(
       textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: Colors.grey[300],
-        floatingActionButton: (FloatingActionButton(
-          child: Icon(Icons.clear),
-          onPressed: () {
-            setState(() {
-              isExcecuted = false;
-            });
-          },
-        )),
-    
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Color(0xff174354),
-          title: TextField(
-            decoration: InputDecoration(
-              hintText: 'ادخل الاسم',
+      child: WillPopScope(
+        onWillPop: ()async=>false,
+        child: Scaffold(
+          backgroundColor: Colors.grey[300],
+          floatingActionButton: (FloatingActionButton(
+            child: Icon(Icons.clear),
+            onPressed: () {
+              setState(() {
+                isExcecuted = false;
+              });
+            },
+          )),
+          
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: Color(0xff174354),
+            title: TextField(
+              decoration: InputDecoration(
+                hintText: 'ادخل الاسم',
+              ),
+              controller: searchController,
             ),
-            controller: searchController,
-          ),
-          actions: [
-            GetBuilder<DataController>(
-              init: DataController(),
-              builder: (val) {
-                return IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () {
-                      val.queryData(searchController.text).then((value) {
-                        snapshotData = value;
-                        setState(() {
-                          isExcecuted = true;
+            actions: [
+              GetBuilder<DataController>(
+                init: DataController(),
+                builder: (val) {
+                  return IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {
+                        val.queryData(searchController.text).then((value) {
+                          snapshotData = value;
+                          setState(() {
+                            isExcecuted = true;
+                          });
                         });
                       });
-                    });
-              },
-            )
-          ],
-        ),
-        body: isExcecuted ? searchedData() : Directionality(
-          textDirection: TextDirection.rtl,
-          child: Container(
-            child: Text('ابحث عن الوصفة', style: TextStyle(fontSize: 35),),
+                },
+              )
+            ],
+          ),
+          body: isExcecuted ? searchedData() : Directionality(
+            textDirection: TextDirection.rtl,
+            child: Container(
+              child: Text('ابحث عن الوصفة', style: TextStyle(fontSize: 35),),
+            ),
           ),
         ),
       ),

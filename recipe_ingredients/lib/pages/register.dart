@@ -59,7 +59,7 @@ class _RegisterState extends State<Register> {
                         key: _formkey,
                           child: Column(
                             children:
-                            [SizedBox(height: 40,),
+                            [SizedBox(height: 3,),
                               Text('انشئ حساب جديد',style: TextStyle(fontSize: 20),),
                               SizedBox(height: 20,),
                               TextFormField(

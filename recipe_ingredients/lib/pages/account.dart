@@ -23,54 +23,57 @@ class _AccountState extends State<Account> {
   final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[300],
-      appBar: AppBar(
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        backgroundColor: Color(0xff174354),
-        title: Directionality(
+    return WillPopScope(
+      onWillPop: ()async=>false,
+      child: Scaffold(
+        backgroundColor: Colors.grey[300],
+        appBar: AppBar(
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          backgroundColor: Color(0xff174354),
+          title: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Text('الاعدادات',
+            style: TextStyle(fontSize: 20),)),
+        ),
+        body: Directionality(
           textDirection: TextDirection.rtl,
-          child: Text('الاعدادات',
-          style: TextStyle(fontSize: 20),)),
-      ),
-      body: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Column(
-          children: [
-            SizedBox(height: 20),
-            ProfileMenu(
-              text: 'حسابي',
-              icon: Icons.account_circle,
-              onpressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>myProfile()));
-              },
-            ),
-            ProfileMenu(
-              text: 'تواصل للمقترحات',
-              icon: Icons.chat_bubble_rounded,
-              onpressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Chat()));
-              },
-            ),
-            ProfileMenu(
-              text: 'عنا',
-              icon: Icons.info,
-              onpressed: () {},
-            ),
-            ProfileMenu(
-              text: 'تسجيل خروج',
-              icon: Icons.logout,
-              onpressed: () {
-                _auth.signOut();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Login()),
-                );
-              },
-            ),
-          ],
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              ProfileMenu(
+                text: 'حسابي',
+                icon: Icons.account_circle,
+                onpressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>myProfile()));
+                },
+              ),
+              ProfileMenu(
+                text: 'تواصل للمقترحات',
+                icon: Icons.chat_bubble_rounded,
+                onpressed: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => Chat()));
+                },
+              ),
+              ProfileMenu(
+                text: 'عنا',
+                icon: Icons.info,
+                onpressed: () {},
+              ),
+              ProfileMenu(
+                text: 'تسجيل خروج',
+                icon: Icons.logout,
+                onpressed: () {
+                  _auth.signOut();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Login()),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

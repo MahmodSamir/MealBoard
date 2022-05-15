@@ -12,14 +12,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<String> cats = ["English","arabic","Egyptian"];
+  List<String> cnts = ["مصر","المغرب"];
   //cats.shuffle();
-  List<String> rtv=[];
+  List<String> cats=["دجاج","مأكولات بحرية"];
 
  sfl ()
   {
       return StreamBuilder(
-          stream: FirebaseFirestore.instance.collection("Items").doc(cats[0]).collection(cats[0]).doc("meat").collection("meat").snapshots(),
+          stream: FirebaseFirestore.instance.collection("Items").doc(cnts[0]).collection(cnts[0]).doc(cats[0]).collection(cats[0]).snapshots(),
           builder: (context,AsyncSnapshot<QuerySnapshot> snapshot) {
             if(snapshot.hasData){
               return ListView.builder(
@@ -55,44 +55,47 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
    cats.shuffle();
-   //sfl();
+   cnts.shuffle();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[300],
-     appBar: AppBar(
-       centerTitle: true,
-      title: Row(
-        children:[
-           Image(image: AssetImage('assets/LogoGOLD.png'),fit: BoxFit.cover,height: 145,width: 145,alignment: Alignment.bottomRight,), 
-          Text("الرئيسية"),
-        ]
-      ),
-
-      backgroundColor: Color(0xff174354),
-      automaticallyImplyLeading: false,
-     ),
-    body: 
-             Stack(
-               children:[ Row(
-                   children: <Widget>[
-                     Expanded(
-                       child: SizedBox(
-                         height: 200.0,
-                         child: sfl1(),
+    return WillPopScope(
+      onWillPop: ()async=>false,
+      child: Scaffold(
+        backgroundColor: Colors.grey[300],
+       appBar: AppBar(
+         centerTitle: true,
+        title: Row(
+          children:[
+             Image(image: AssetImage('assets/LogoGOLD.png'),fit: BoxFit.cover,height: 145,width: 145,alignment: Alignment.bottomRight,), 
+            Text("الرئيسية"),
+          ]
+        ),
+    
+        backgroundColor: Color(0xff174354),
+        automaticallyImplyLeading: false,
+       ),
+      body: 
+               Stack(
+                 children:[ Row(
+                     children: <Widget>[
+                       Expanded(
+                         child: SizedBox(
+                           height: 200.0,
+                           child: sfl1(),
+                           ),
                          ),
+                     ],
                        ),
-                   ],
-                     ),
-               
-      Container(child:sfl(),margin:EdgeInsets.only(top: 195),), 
-
-               ],
-             ),
-      
+                 
+        Container(child:sfl(),margin:EdgeInsets.only(top: 195),), 
+    
+                 ],
+               ),
+        
+      ),
     );
   }
  /* Widget _ok(){
