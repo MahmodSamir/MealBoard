@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'account.dart';
+import 'adminProfile.dart';
 import 'chat.dart';
 import 'adminAdd.dart';
 import 'favorites.dart';
@@ -22,14 +23,12 @@ class _adminNavBarState extends State<adminNavBar> {
   final _auth = FirebaseAuth.instance;
   late List pages;
   LogOut() {
-    onpressed:
-    () {
+
       _auth.signOut();
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Login()),
       );
-    };
   }
 
   int selectPageIndex = 0;
@@ -49,11 +48,7 @@ class _adminNavBarState extends State<adminNavBar> {
         'label': "اضافة وصفة جديدة",
       },
       {
-        'page': Chat(),
-        'label': "تواصل",
-      },
-      {
-        'page': LogOut(),
+        'page': adminAcc(),
         'label': "تسجيل الخروج",
       },
     ];
@@ -96,9 +91,10 @@ class _adminNavBarState extends State<adminNavBar> {
             label: "اضافة",
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.chat_bubble_rounded), label: "تواصل"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.logout), label: 'تسجيل خروج'),
+            icon: Icon(Icons.account_circle),
+            label: "الحساب",
+          ),
+
         ],
       ),
     );
