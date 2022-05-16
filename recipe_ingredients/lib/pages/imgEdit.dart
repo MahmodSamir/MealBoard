@@ -3,7 +3,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'dart:io';
 import 'package:path/path.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -12,8 +11,8 @@ class imgEdit extends StatefulWidget {
   final String country;
   final String docID;
   final String title;
-  
-  const imgEdit(this.category,  this.country,this.docID, this.title);
+
+  const imgEdit(this.category, this.country, this.docID, this.title);
 
   @override
   _imgEditState createState() => _imgEditState();
@@ -34,7 +33,7 @@ class _imgEditState extends State<imgEdit> {
   Future getImage() async {
     final pickedfile = await picker.pickImage(source: ImageSource.gallery);
     setState(() {
-      _image = File(pickedfile!.path );
+      _image = File(pickedfile!.path);
     });
   }
 
@@ -52,75 +51,93 @@ class _imgEditState extends State<imgEdit> {
       showSpinner = false;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
-          appBar: AppBar(
-            centerTitle: true,
-            backgroundColor: Color(0xff174354),
-            titleSpacing: 30,
-            title: Text("${widget.title} تحديث الصورة لـ",style: TextStyle(fontSize: 20),
-            ),
-          ),
-          body: Directionality(
-            textDirection: TextDirection.rtl,
-            child: ModalProgressHUD(
-              inAsyncCall: showSpinner,
-              child: ListView(
-                    children: <Widget>[
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(padding: EdgeInsets.all(30)),
-                          Card(
-                            child:
-                            (_image!=null)
-                                ?Image.file(_image,width: 150, height: 150,fit: BoxFit.fill,)
-                                :Image(image: AssetImage ('assets/upload.png'),width: 160,height: 160,)
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Color(0xff174354),
+        titleSpacing: 30,
+        title: Text(
+          " تحديث صورة ${widget.title}",
+          style: TextStyle(fontSize: 15),
+        ),
+      ),
+      body: Directionality(
+        textDirection: TextDirection.rtl,
+        child: ModalProgressHUD(
+          inAsyncCall: showSpinner,
+          child: ListView(
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(padding: EdgeInsets.all(30)),
+                  Card(
+                      child: (_image != null)
+                          ? Image.file(
+                              _image,
+                              width: 150,
+                              height: 150,
+                              fit: BoxFit.fill,
+                            )
+                          : Image(
+                              image: AssetImage('assets/upload.png'),
+                              width: 160,
+                              height: 160,
+                            )),
+                  InkWell(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'اضف صورة',
+                          style: TextStyle(
+                            color: Colors.teal[600],
+                            decoration: TextDecoration.underline,
                           ),
-                          InkWell(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'اضف صورة',
-                                  style: TextStyle(
-                                    color: Colors.teal[600],
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                                Icon(Icons.add_circle,color: Colors.teal[500],),
-                              ],
-                            ),
-                            onTap: getImage,
-                          ),
-          
-              
-                          Padding(padding: EdgeInsets.all(50)),
-                          ButtonTheme(
-                            height: 50,
-                            minWidth:100,
-                            child: RaisedButton(
-                              onPressed: () async {
-                                await uploadPic(context);
-                                _firestore.collection("Items").doc(widget.country).collection(widget.country).doc(widget.category).collection(widget.category).doc(widget.docID).update({
-                                  'url': downloadUrl,
-                                }
-                                ).then((value) => 
-                                Navigator.of(context).pop());
-                                    
-                              },
-                              child: Text('حدث الصورة',style: TextStyle(color: Colors.white,fontSize: 20),),
-                              color: Colors.teal[500],
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
+                        ),
+                        Icon(
+                          Icons.add_circle,
+                          color: Colors.teal[500],
+                        ),
+                      ],
+                    ),
+                    onTap: getImage,
                   ),
-            ),
+                  Padding(padding: EdgeInsets.all(50)),
+                  ButtonTheme(
+                    height: 50,
+                    minWidth: 100,
+                    child: RaisedButton(
+                      onPressed: () async {
+                        await uploadPic(context);
+                        _firestore
+                            .collection("Items")
+                            .doc(widget.country)
+                            .collection(widget.country)
+                            .doc(widget.category)
+                            .collection(widget.category)
+                            .doc(widget.docID)
+                            .update({
+                          'url': downloadUrl,
+                        }).then((value) => Navigator.of(context).pop());
+                      },
+                      child: Text(
+                        'حدث الصورة',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      color: Colors.teal[500],
+                    ),
+                  ),
+                ],
+              )
+            ],
           ),
-            );
+        ),
+      ),
+    );
   }
 }

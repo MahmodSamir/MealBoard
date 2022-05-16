@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
-import 'package:connectivity/connectivity.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../widgets/chatCard.dart';
 
@@ -16,7 +13,7 @@ class _ChatState extends State<Chat> {
   String? newMsg;
   var _conttroller = TextEditingController();
   late bool isMe;
-  ScrollController scrollController =new ScrollController();
+  ScrollController scrollController = new ScrollController();
   var _auth = FirebaseAuth.instance;
   var logedInUSer;
 
@@ -35,8 +32,9 @@ class _ChatState extends State<Chat> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      appBar: AppBar(leading:BackButton(),
-      backgroundColor: Color(0xff174354),
+      appBar: AppBar(
+        leading: BackButton(),
+        backgroundColor: Color(0xff174354),
       ),
       body: Directionality(
         textDirection: TextDirection.rtl,
@@ -68,21 +66,28 @@ class _ChatState extends State<Chat> {
                       Msg: msg,
                       isMe: isMe,
                     );
-                    chatList.addAll([itemList,SizedBox(height: 10,)]);
+                    chatList.addAll([
+                      itemList,
+                      SizedBox(
+                        height: 10,
+                      )
+                    ]);
                   }
-      
+
                   return Expanded(
                     child: ListView.builder(
-      
                       padding: EdgeInsets.all(15),
                       itemCount: chatList.length,
-                      itemBuilder: (context,index){
+                      itemBuilder: (context, index) {
                         WidgetsBinding.instance?.addPostFrameCallback((_) {
-                          if(scrollController.hasClients){
-                            scrollController.jumpTo(scrollController.position.maxScrollExtent);
+                          if (scrollController.hasClients) {
+                            scrollController.jumpTo(
+                                scrollController.position.maxScrollExtent);
                           }
                         });
-                        return Column(children: [chatList[index]],);
+                        return Column(
+                          children: [chatList[index]],
+                        );
                       },
                     ),
                   );

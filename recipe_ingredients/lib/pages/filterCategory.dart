@@ -4,8 +4,8 @@ import 'package:recipe_ingredients/widgets/categoryItems.dart';
 
 class Filter extends StatelessWidget {
   final String country;
-  Filter(this.country);
   final _firestore = FirebaseFirestore.instance;
+  Filter(this.country);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,13 @@ class Filter extends StatelessWidget {
       body: StreamBuilder(
         stream: _firestore.collection("Items").doc(country).collection(country).snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasData) {
+          if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          }
+              else if (snapshot.data?.size == 0) {
+                  return Center(child: Text("!لا يوجد عناصر، راسلنا لاضافة مقترحاتك"));
+              }
+              else{
             return GridView.builder(
               padding: EdgeInsets.all(25),
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -30,14 +36,11 @@ class Filter extends StatelessWidget {
               ),
               itemBuilder: (context, i) {
                 QueryDocumentSnapshot x = snapshot.data!.docs[i];
-                print(x.id);
-                //Search(x.id);
                 return category_items(x.id, country,x['img']);
               },
               itemCount: snapshot.data!.docs.length,
             );
           }
-          return const Center(child: CircularProgressIndicator());
         },
       ),
     );

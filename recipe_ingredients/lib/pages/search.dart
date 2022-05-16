@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:recipe_ingredients/widgets/itemCards.dart';
-
 import 'dataControl.dart';
 
 class Search extends StatefulWidget {
@@ -24,32 +23,24 @@ class _SearchState extends State<Search> {
         itemCount: snapshotData.docs.length,
         itemBuilder: (BuildContext context, int i) {
           return GestureDetector(
-            onTap: (){
-
-            },
-            child:itemCards((snapshotData.docs[i].data() as dynamic)['url'],(snapshotData.docs[i].data() as dynamic)['RecipeName'],
-            (snapshotData.docs[i].data() as dynamic)['RecipeTime'],
-            (snapshotData.docs[i].data() as dynamic)['Ingredients'],(snapshotData.docs[i].data() as dynamic)['Recipe'],"","","") 
-            /*ListTile(
-              leading: CircleAvatar(backgroundImage: NetworkImage(
-                (snapshotData.docs[index].data()as dynamic) ['url'],
-              ),),
-              title: Text(
-                (snapshotData.docs[index].data()as dynamic)["RecipeName"],
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25
-                ),
-              ),
-            ),*/
-          );
+              onTap: () {},
+              child: itemCards(
+                  (snapshotData.docs[i].data() as dynamic)['url'],
+                  (snapshotData.docs[i].data() as dynamic)['RecipeName'],
+                  (snapshotData.docs[i].data() as dynamic)['RecipeTime'],
+                  (snapshotData.docs[i].data() as dynamic)['Ingredients'],
+                  (snapshotData.docs[i].data() as dynamic)['Recipe'],
+                  "",
+                  "",
+                  ""));
         },
       );
     }
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: WillPopScope(
-        onWillPop: ()async=>false,
+        onWillPop: () async => false,
         child: Scaffold(
           backgroundColor: Colors.grey[300],
           floatingActionButton: (FloatingActionButton(
@@ -60,16 +51,14 @@ class _SearchState extends State<Search> {
               });
             },
           )),
-          
           appBar: AppBar(
             automaticallyImplyLeading: false,
             backgroundColor: Color(0xff174354),
             title: TextField(
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
-                hintText: 'ادخل الاسم',
-                hintStyle: TextStyle(color: Colors.white)
-              ),
+                  hintText: 'ادخل الاسم',
+                  hintStyle: TextStyle(color: Colors.white)),
               controller: searchController,
             ),
             actions: [
@@ -90,12 +79,17 @@ class _SearchState extends State<Search> {
               )
             ],
           ),
-          body: isExcecuted ? searchedData() : Directionality(
-            textDirection: TextDirection.rtl,
-            child: Container(
-              child: Text('ابحث عن الوصفة', style: TextStyle(fontSize: 35),),
-            ),
-          ),
+          body: isExcecuted
+              ? searchedData()
+              : Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Container(
+                    child: Text(
+                      'ابحث عن الوصفة',
+                      style: TextStyle(fontSize: 35),
+                    ),
+                  ),
+                ),
         ),
       ),
     );

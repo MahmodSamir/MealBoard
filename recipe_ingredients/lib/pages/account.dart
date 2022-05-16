@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
-import 'package:path/path.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'chat.dart';
 import 'login.dart';
 import 'myProfile.dart';
-
 
 class Account extends StatefulWidget {
   const Account({Key? key}) : super(key: key);
@@ -24,7 +18,7 @@ class _AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: ()async=>false,
+      onWillPop: () async => false,
       child: Scaffold(
         backgroundColor: Colors.grey[300],
         appBar: AppBar(
@@ -32,9 +26,11 @@ class _AccountState extends State<Account> {
           automaticallyImplyLeading: false,
           backgroundColor: Color(0xff174354),
           title: Directionality(
-            textDirection: TextDirection.rtl,
-            child: Text('الاعدادات',
-            style: TextStyle(fontSize: 20),)),
+              textDirection: TextDirection.rtl,
+              child: Text(
+                'الاعدادات',
+                style: TextStyle(fontSize: 20),
+              )),
         ),
         body: Directionality(
           textDirection: TextDirection.rtl,
@@ -45,7 +41,8 @@ class _AccountState extends State<Account> {
                 text: 'حسابي',
                 icon: Icons.account_circle,
                 onpressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>myProfile()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => myProfile()));
                 },
               ),
               ProfileMenu(

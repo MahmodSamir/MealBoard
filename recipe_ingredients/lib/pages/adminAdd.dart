@@ -25,16 +25,12 @@ class _AddState extends State<Add> {
   var RecipeName;
   var Recipe;
   var category;
-  String categoryValue = 'Egyptian';
-  String countryValue = 'Egyptian';
+  String categoryValue = '';
+  String countryValue = '';
   var country;
   var RecipeTime;
   late User logeInUser;
-  late String recipeName;
   late String downloadUrl;
-  late String recipe;
-  late var photo;
-  late double long, lat;
   final picker = ImagePicker();
   var ctrl1 = TextEditingController();
   var ctrl2 = TextEditingController();

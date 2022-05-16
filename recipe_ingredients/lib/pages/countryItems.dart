@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'Recipes.dart';
 import 'filterCategory.dart';
 
 class country_items extends StatelessWidget {
@@ -23,14 +22,13 @@ class country_items extends StatelessWidget {
         onTap: () => selectcountry(context),
         borderRadius: BorderRadius.circular(15),
         child: Container(
-    
           width: double.infinity,
           height: 70,
           padding: EdgeInsets.all(15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.network(img, height: 40, width: 60,fit:BoxFit.cover),
+              Image.network(img, height: 40, width: 60, fit: BoxFit.cover),
               Text(
                 title,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -43,9 +41,7 @@ class country_items extends StatelessWidget {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                  color: Colors.grey, //New
-                  blurRadius: 25.0,
-                  offset: Offset(0, -10))
+                  color: Colors.grey, blurRadius: 25.0, offset: Offset(0, -10))
             ],
             borderRadius: BorderRadius.circular(15),
           ),

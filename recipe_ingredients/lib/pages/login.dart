@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:recipe_ingredients/main.dart';
-// ignore: import_of_legacy_library_into_null_safe
-//import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:recipe_ingredients/pages/Recipes.dart';
-//import 'package:untitled/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:recipe_ingredients/pages/filtercountries.dart';
 import 'package:recipe_ingredients/pages/navigationBar.dart';
-//import 'package:untitled/home.dart';
-import 'adminAdd.dart';
+import 'adminNavBar.dart';
 import 'register.dart';
 
 class Login extends StatefulWidget {
@@ -28,20 +21,18 @@ class _LoginState extends State<Login> {
   bool visiblityPassword = true;
   bool spinner = false;
   var email_vaildator = MultiValidator([
-    EmailValidator(errorText: 'Email not valid'),
-    RequiredValidator(errorText: 'Email is required'),
+    EmailValidator(errorText: 'البريد الالكتروني غير صحيح'),
+    RequiredValidator(errorText: 'البريد الالكتروني مطلوب'),
   ]);
   var password_validator = MultiValidator([
-    RequiredValidator(errorText: 'Password is required'),
-    MinLengthValidator(8, errorText: 'password must be at least 8 digits long'),
+    RequiredValidator(errorText: 'كلمة المرور مطلوبة'),
+    MinLengthValidator(8, errorText: 'يجب ان لا تقل كلمة المرور عن 8 احرف'),
     PatternValidator(r'(?=.*?[#?!@$%^&*-])',
-        errorText: 'passwords must have at least one special character'),
+        errorText: 'يجب ان تحتوي كلمة المرور على علامة مميزة واحدة على الاقل'),
   ]);
 
   @override
   Widget build(BuildContext context) {
-    //   bool visiblityPassword = true;
-
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
@@ -100,7 +91,6 @@ class _LoginState extends State<Login> {
                                   color: Colors.indigo),
                               onPressed: () {
                                 setState(() {
-                                  //visiblityPassword? Icons.visibility : Icons.visibility_off;
                                   visiblityPassword = !visiblityPassword;
                                 });
                               },
@@ -139,7 +129,7 @@ class _LoginState extends State<Login> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => bottomNavBar()));
+                                      builder: (context) => adminNavBar()));
                             } else {
                               await _auth.signInWithEmailAndPassword(
                                   email: email, password: password);

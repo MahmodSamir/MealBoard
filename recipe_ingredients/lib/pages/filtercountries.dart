@@ -21,19 +21,23 @@ class FilterCountry extends StatelessWidget {
         body: StreamBuilder(
           stream: _firestore.collection("Items").snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasData) {
+
+            if (!snapshot.hasData) {
+              return Center(child: CircularProgressIndicator());
+            }
+             else if (snapshot.data?.size == 0) {
+                  return Center(child: Text("!مطبخنا فارغ، تواصل معنا لاضافة مطابخك المفضلة"));
+              }
+              else{
               return ListView.builder(
                 padding: EdgeInsets.all(25),
+                itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, i) {
                   QueryDocumentSnapshot x = snapshot.data!.docs[i];
-                  print(x.id);
-                  //Search(x.id);
-                  return country_items(x.id);
+                  return country_items(x.id,x['img']);
                 },
-                itemCount: snapshot.data!.docs.length,
               );
             }
-            return const Center(child: CircularProgressIndicator());
           },
         ),
       ),

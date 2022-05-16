@@ -1,22 +1,31 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import '../dummy_data.dart';
+import 'package:recipe_ingredients/widgets/itemCards.dart';
 import 'imgEdit.dart';
 import 'ingEdit.dart';
 import 'stepsEdit.dart';
+import '../widgets/itemCards.dart';
+import 'globals.dart' as globals;
 
-class Details extends StatelessWidget {
-    final String ing;
-    final String steps;
-    final String url;
-    final String name;
-    final String category;
-    final String country;
-    final String docID;
+class Details extends StatefulWidget {
+ 
+ final String ing;
+  final String steps;
+  final String url;
+  final String duration;
+  final String name;
+  final String category;
+  final String country;
+  final String docID;
 
-   Details(this.name, this.url, this.ing, this.steps, this.category, this.country,this.docID);  
-  
+  Details(this.name, this.url, this.duration,this.ing, this.steps, this.category,
+      this.country, this.docID);
+ 
+   State<Details> createState() => _Details();
+}
+class _Details extends State<Details> {
+   bool _isFavorited = true;
 
   Widget buildSectionTitle(BuildContext ctx, String text) {
     return Container(
@@ -27,6 +36,8 @@ class Details extends StatelessWidget {
       ),
     );
   }
+
+ 
 
   Widget buildContainer(Widget child) {
     return Container(
@@ -42,24 +53,59 @@ class Details extends StatelessWidget {
     );
   }
 
-    var _auth = FirebaseAuth.instance;
-    var logedInUSer;
-    getCuurrentUser() {
-      User? user = _auth.currentUser?.email as User?;
-      logedInUSer = user?.email;
-    }
-  @override
+  var _auth = FirebaseAuth.instance;
+  var logedInUSer;
+  getCuurrentUser() {
+    User? user = _auth.currentUser?.email as User?;
+    logedInUSer = user?.email;
+  }
+   @override
   Widget build(BuildContext context) {
-  //  final mealID = ModalRoute.of(context)!.settings.arguments as String;
-   // final selectedMeal = DUMMY_mealS.firstWhere((meal) => meal.id == mealID);
+    final itemCards fav = new itemCards(widget.url, widget.name, widget.duration, widget.ing, widget.steps, widget.category, widget.country, widget.docID); 
+    final FirebaseAuth auth = FirebaseAuth.instance;
+isfav()
+  async {
+    final snap =await FirebaseFirestore.instance.collection("users-favorites").doc(auth.currentUser!.email)
+        .collection("items")
+        .doc(widget.name).get();
+     if(snap.exists && _isFavorited){
+       setState(() {
+       _isFavorited = false;  
+        fav.unFavorite();
+       });
+       
 
+      
+     }
+     
+     else{
+       setState(() {
+       _isFavorited=true;  
+            fav.addToFavorite();           
+
+       });
+      
+     
+    }
+    }
+    /*void _toggleFavorite() {
+  setState(() {
+    if (_isFavorited) {
+      _isFavorited = false;
+    } else {
+      _isFavorited = true;
+    }
+  });
+}*/
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Color(0xff174354),
-        title: Text(name,
-          style: TextStyle(fontSize: 20),),
+        title: Text(
+          widget.name,
+          style: TextStyle(fontSize: 20),
+        ),
       ),
       body: Directionality(
         textDirection: TextDirection.rtl,
@@ -69,100 +115,105 @@ class Details extends StatelessWidget {
               Container(
                 height: 300,
                 width: double.infinity,
-                child: Image.network(url,
+                child: Image.network(
+                  widget.url,
                   fit: BoxFit.cover,
                 ),
               ),
-                           Visibility(
-               child: IconButton(
-                        padding:EdgeInsets.symmetric(horizontal:250),
-                        iconSize: 45,
-                        onPressed:()=> Navigator.push(
-                         context,
-                          MaterialPageRoute(builder: (context) =>   imgEdit(category, country,docID, name))).then((value) => Navigator.of(context).pop()),
-                        icon: Icon(Icons.photo_camera_back_outlined),
-                        ),
-               visible:  _auth.currentUser?.email =='admin@gmail.com'? true: false
-              ),
-      
+              Visibility(
+                  child: IconButton(
+                    padding: EdgeInsets.symmetric(horizontal: 350),
+                    iconSize: 45,
+                    onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    imgEdit(widget.category, widget.country, widget.docID, widget.name)))
+                        .then((value) => Navigator.of(context).pop()),
+                    icon: Icon(Icons.photo_camera_back_outlined),
+                  ),
+                  visible: _auth.currentUser?.email == 'admin@gmail.com'
+                      ? true
+                      : false),
               Row(
-                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [buildSectionTitle(context, "المكونات"),
-                 Visibility(
-               child: IconButton(
-                        onPressed:()=> Navigator.push(
-                         context,
-                          MaterialPageRoute(builder: (context) =>   ingEdit(category, country,docID, name))).then((value) => Navigator.of(context).pop()),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildSectionTitle(context, "المكونات"),
+                  Visibility(
+                      child: IconButton(
+                        onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ingEdit(
+                                        widget.category, widget.country, widget.docID, widget.name)))
+                            .then((value) => Navigator.of(context).pop()),
                         icon: Icon(Icons.edit),
-                        ),
-               visible:  _auth.currentUser?.email =='admin@gmail.com'? true: false
-              ),  
+                      ),
+                      visible: _auth.currentUser?.email == 'admin@gmail.com'
+                          ? true
+                          : false),
                 ],
-                ),
+              ),
               buildContainer(
                 ListView.builder(
-                  itemBuilder: (ctx, index) => 
-                  //Column
-                  Card(
+                  itemBuilder: (ctx, index) =>
+                      Card(
                     color: Colors.grey,
-                    child: Padding(padding: const EdgeInsets.symmetric(vertical:5, horizontal: 10),
-                    child: Text(ing),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 10),
+                      child: Text(widget.ing),
                     ),
-                    //children: [
-                     // ListTile(
-                   /* leading: CircleAvatar(
-                      backgroundColor: Colors.teal[500],
-                      child: Text("#${index+1}"),
-                    ),*/
-                    //title: Text(ing),
-                  //),
-                  //Divider(),  
-                    //],
-                  ),    
-                 itemCount: 1,
+                  ),
+                  itemCount: 1,
                 ),
               ),
-             
               Row(
-                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [buildSectionTitle(context, "طريقة التحضير"),
-                 Visibility(
-               child: IconButton(
-                        onPressed:()=> Navigator.push(
-                         context,
-                          MaterialPageRoute(builder: (context) =>   stepsEdit(category, country,docID, name))).then((value) => Navigator.of(context).pop()),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildSectionTitle(context, "طريقة التحضير"),
+                  Visibility(
+                      child: IconButton(
+                        onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => stepsEdit(
+                                        widget.category, widget.country, widget.docID, widget.name)))
+                            .then((value) => Navigator.of(context).pop()),
                         icon: Icon(Icons.edit),
-                        ),
-               visible:  _auth.currentUser?.email =='admin@gmail.com'? true: false
-              ),  
+                      ),
+                      visible: _auth.currentUser?.email == 'admin@gmail.com'
+                          ? true
+                          : false),
                 ],
-                ),           
-                 buildContainer( ListView.builder(
-                  itemBuilder: (ctx, index) => Column(
-                    children: [
-                      ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.teal[500],
-                      child: Text("#${index+1}"),
+              ),
+              buildContainer(
+                ListView.builder(
+                  itemBuilder: (ctx, index) =>  Card(
+                    color: Colors.grey,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 10),
+                      child: Text(widget.steps),
                     ),
-                    title: Text(steps),
                   ),
-                  Divider(),  
-                    ],
-                  ),    
                   itemCount: 1,
-                ),)
+                ),
+              )
             ],
           ),
         ),
       ),
-    /*  floatingActionButton: FloatingActionButton(
+    
+      floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xff449f96),
-        onPressed: ()=> togglefav(mealID),
-        child: Icon(
-          isfavorite(mealID) ? Icons.favorite_sharp : Icons.favorite_outline
+        onPressed: ()=> isfav(),
+        child: 
+        Icon(
+          _isFavorited ?   Icons.favorite : Icons.favorite_border_outlined  
           ),
-      ),*/
+      ),
     );
   }
+
 }
