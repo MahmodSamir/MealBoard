@@ -5,14 +5,20 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:recipe_ingredients/pages/Details.dart';
 
 class imgEdit extends StatefulWidget {
   final String category;
   final String country;
   final String docID;
   final String title;
+  final String ing;
+  final String steps;
+  final String url;
+  final String duration;
 
-  const imgEdit(this.category, this.country, this.docID, this.title);
+  const imgEdit(this.category, this.country, this.docID, this.title, this.ing,
+      this.steps, this.url, this.duration);
 
   @override
   _imgEditState createState() => _imgEditState();
@@ -59,10 +65,9 @@ class _imgEditState extends State<imgEdit> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Color(0xff174354),
-        titleSpacing: 30,
         title: Text(
           " تحديث صورة ${widget.title}",
-          style: TextStyle(fontSize: 15),
+          style: TextStyle(fontSize: 20),
         ),
       ),
       body: Directionality(
@@ -110,7 +115,7 @@ class _imgEditState extends State<imgEdit> {
                   Padding(padding: EdgeInsets.all(50)),
                   ButtonTheme(
                     height: 50,
-                    minWidth: 100,
+                    minWidth: 150,
                     child: RaisedButton(
                       onPressed: () async {
                         await uploadPic(context);
@@ -123,7 +128,18 @@ class _imgEditState extends State<imgEdit> {
                             .doc(widget.docID)
                             .update({
                           'url': downloadUrl,
-                        }).then((value) => Navigator.of(context).pop());
+                        }).then((value) => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Details(
+                                        widget.title,
+                                        downloadUrl,
+                                        widget.duration,
+                                        widget.ing,
+                                        widget.steps,
+                                        widget.category,
+                                        widget.country,
+                                        widget.docID))));
                       },
                       child: Text(
                         'حدث الصورة',

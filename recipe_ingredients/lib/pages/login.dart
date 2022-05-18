@@ -3,8 +3,8 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:recipe_ingredients/pages/navigationBar.dart';
-import 'adminNavBar.dart';
+import 'loginSplash.dart';
+import 'resetPassword.dart';
 import 'register.dart';
 
 class Login extends StatefulWidget {
@@ -52,12 +52,15 @@ class _LoginState extends State<Login> {
             child: ListView(
               padding: EdgeInsets.all(15),
               children: [
+                Container(
+                  
+                  child: Image(image: AssetImage('assets/MealBoard.png'),height: 100,width:100,)),
                 Form(
                     key: _formkey,
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 40,
+                          height: 10,
                         ),
                         TextFormField(
                           validator: email_vaildator,
@@ -88,7 +91,7 @@ class _LoginState extends State<Login> {
                                   visiblityPassword
                                       ? Icons.visibility
                                       : Icons.visibility_off,
-                                  color: Colors.indigo),
+                                  color: Colors.teal[500]),
                               onPressed: () {
                                 setState(() {
                                   visiblityPassword = !visiblityPassword;
@@ -102,13 +105,13 @@ class _LoginState extends State<Login> {
                           height: 20,
                         ),
                         SizedBox(
-                          height: 40,
+                          height: 20,
                         ),
                       ],
                     )),
                 FlatButton(
                     color: Colors.teal[500],
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(10),
                     onPressed: () async {
                       if (_formkey.currentState!.validate()) {
                         var connectivityResult =
@@ -129,14 +132,14 @@ class _LoginState extends State<Login> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => adminNavBar()));
+                                      builder: (context) => LoginSplash()));
                             } else {
                               await _auth.signInWithEmailAndPassword(
                                   email: email, password: password);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => bottomNavBar()));
+                                      builder: (context) => LoginSplash()));
                             }
                           } catch (e) {
                             setState(() {
@@ -160,35 +163,58 @@ class _LoginState extends State<Login> {
                       style: TextStyle(fontSize: 20),
                     )),
                 SizedBox(
-                  height: 20,
+                  height: 30,
+                ),
+              Container(
+                  margin: EdgeInsets.only(right: 70),
+                  child: Row(children: [
+                    Text(
+                      'لا تملك حساب؟',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black38,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Register()));
+                      },
+                      child: Text(
+                        'اشترك الان.  ',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    )
+                  ]),
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 InkWell(
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Register()),
+                        MaterialPageRoute(
+                            builder: (context) => ResetPassword()),
                       );
                     },
-                    child: Row(
-                      children: [
+                    child: Container(
+                      margin: EdgeInsets.only(right: 90),
+                      child: Row(children: [
                         Text(
-                          'لا تملك حساب؟',
+                          'هل نسيت كلمة المرور؟',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black38,
+                            fontSize: 18,
+                            color: Colors.blue[600],
                           ),
                         ),
-                        Text(
-                          'قم بانشاء حساب  ',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.blue,
-                          ),
-                        ),
-                      ],
-                    )),
+                      ]),
+                    ))
               ],
             ),
           );

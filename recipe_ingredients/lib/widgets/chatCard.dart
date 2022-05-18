@@ -30,6 +30,7 @@ class ChatCard extends StatelessWidget {
                 : CrossAxisAlignment.start,
             children: [
               Text(Sender),
+              Divider(height: 5,color: Colors.black,),
               Text(Msg),
             ],
           ),

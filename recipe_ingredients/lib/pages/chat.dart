@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../widgets/chatCard.dart';
 
@@ -33,6 +33,8 @@ class _ChatState extends State<Chat> {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
+        centerTitle: true,
+        title: Text("المحادثة"),
         leading: BackButton(),
         backgroundColor: Color(0xff174354),
       ),
@@ -105,7 +107,7 @@ class _ChatState extends State<Chat> {
                       controller: _conttroller,
                       decoration: InputDecoration(
                         fillColor: Colors.white,
-                        hintText: 'ارسل سالة',
+                        hintText: 'ارسل رسالة',
                       ),
                     ),
                   ),

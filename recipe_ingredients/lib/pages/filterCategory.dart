@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_ingredients/widgets/categoryItems.dart';
+import '../widgets/categoryItems.dart';
 
 class Filter extends StatelessWidget {
   final String country;
@@ -12,20 +12,25 @@ class Filter extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Color(0xff174354),
-        title:  Text(country,
-          style: TextStyle(fontSize: 20),)),
+          centerTitle: true,
+          backgroundColor: Color(0xff174354),
+          title: Text(
+            country,
+            style: TextStyle(fontSize: 20),
+          )),
       body: StreamBuilder(
-        stream: _firestore.collection("Items").doc(country).collection(country).snapshots(),
+        stream: _firestore
+            .collection("Items")
+            .doc(country)
+            .collection(country)
+            .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
-          }
-              else if (snapshot.data?.size == 0) {
-                  return Center(child: Text("!لا يوجد عناصر، راسلنا لاضافة مقترحاتك"));
-              }
-              else{
+          } else if (snapshot.data?.size == 0) {
+            return Center(
+                child: Text("!لا يوجد عناصر، راسلنا لاضافة مقترحاتك"));
+          } else {
             return GridView.builder(
               padding: EdgeInsets.all(25),
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -36,7 +41,7 @@ class Filter extends StatelessWidget {
               ),
               itemBuilder: (context, i) {
                 QueryDocumentSnapshot x = snapshot.data!.docs[i];
-                return category_items(x.id, country,x['img']);
+                return category_items(x.id, country, x['img']);
               },
               itemCount: snapshot.data!.docs.length,
             );

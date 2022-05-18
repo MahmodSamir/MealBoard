@@ -1,15 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'account.dart';
 import 'adminProfile.dart';
-import 'chat.dart';
 import 'adminAdd.dart';
-import 'favorites.dart';
 import 'filtercountries.dart';
 import 'home.dart';
 import 'login.dart';
-import 'register.dart';
 
 class adminNavBar extends StatefulWidget {
   const adminNavBar({Key? key}) : super(key: key);
@@ -23,12 +19,11 @@ class _adminNavBarState extends State<adminNavBar> {
   final _auth = FirebaseAuth.instance;
   late List pages;
   LogOut() {
-
-      _auth.signOut();
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Login()),
-      );
+    _auth.signOut();
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Login()),
+    );
   }
 
   int selectPageIndex = 0;
@@ -37,19 +32,15 @@ class _adminNavBarState extends State<adminNavBar> {
     pages = [
       {
         'page': Home(),
-        'label': "الرئيسية",
       },
       {
         'page': FilterCountry(),
-        'label': "البلاد",
       },
       {
         'page': Add(),
-        'label': "اضافة وصفة جديدة",
       },
       {
         'page': adminAcc(),
-        'label': "تسجيل الخروج",
       },
     ];
     super.initState();
@@ -77,14 +68,13 @@ class _adminNavBarState extends State<adminNavBar> {
         unselectedItemColor: Colors.black,
         currentIndex: selectPageIndex,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "الرئيسية"),
-          /*     BottomNavigationBarItem(
-             icon: Icon(Icons.home),
-             label: "Chats"
-             ),*/
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "الرئيسية"
+            ),
           BottomNavigationBarItem(
             icon: Icon(Icons.filter_alt),
-            label: "الاقسام",
+            label: "التصنيفات",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add),
@@ -94,7 +84,6 @@ class _adminNavBarState extends State<adminNavBar> {
             icon: Icon(Icons.account_circle),
             label: "الحساب",
           ),
-
         ],
       ),
     );

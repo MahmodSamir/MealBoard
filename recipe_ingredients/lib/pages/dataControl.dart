@@ -18,7 +18,11 @@ class DataController extends GetxController {
     l.shuffle();
     var ls = l.first;
     return FirebaseFirestore.instance
-        .collectionGroup('مصر')
+        .collection('Items')
+        .doc("مصر")
+        .collection("مصر")
+        .doc("دجاج")
+        .collection("دجاج")
         .where('RecipeName', isEqualTo: qurryString)
         .get();
   }

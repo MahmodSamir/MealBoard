@@ -1,10 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:recipe_ingredients/pages/Details.dart';
-import 'package:favorite_button/favorite_button.dart';
+import 'package:share_plus/share_plus.dart';
+import '../pages/Details.dart';
 
-class itemCards extends StatelessWidget {
+class itemCards extends StatefulWidget {
   final String imageUrl;
   final String title;
   final String duration;
@@ -23,20 +23,56 @@ class itemCards extends StatelessWidget {
       this.category,
       this.country,
       this.docID);
+  State<StatefulWidget> createState() => _itemCardsState();
+}
 
+class _itemCardsState extends State<itemCards> {
   bool isfav = false;
 
   void selectMeal(BuildContext ctx) {
     Navigator.push(
       ctx,
       MaterialPageRoute(
-          builder: (context) =>
-              Details(title, imageUrl, duration,ing, steps, category, country, docID)),
+          builder: (context) => Details(
+              widget.title,
+              widget.imageUrl,
+              widget.duration,
+              widget.ing,
+              widget.steps,
+              widget.category,
+              widget.country,
+              widget.docID)),
     );
   }
 
+  sharing() {
+    try {
+      Share.share("مشاركة وصفة ${widget.title} من تطبيق كذا"
+          "\n\n\n"
+          "مدة التحضير"
+          "\t"
+          "${widget.duration} دقيقة"
+          "\n\n\n"
+          "المكونات"
+          "\n"
+          "${widget.ing}"
+          "\n\n\n"
+          "طريقة التحضير"
+          "\n"
+          "${widget.steps}"
+          "\n\n\n"
+          "صورة"
+          "\n\n"
+          "${widget.imageUrl}");
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future addToFavorite() async {
-    isfav = true;
+    setState(() {
+      isfav = true;
+    });
     final FirebaseAuth auth = FirebaseAuth.instance;
     var currentUser = auth.currentUser;
     CollectionReference collectionRef =
@@ -44,18 +80,21 @@ class itemCards extends StatelessWidget {
     return collectionRef
         .doc(currentUser!.email)
         .collection("items")
-        .doc(title)
+        .doc(widget.title)
         .set({
-      'url': imageUrl,
-      'Recipe': steps,
-      'Ingredients': ing,
-      'RecipeName': title,
-      'RecipeTime': duration,
+      'url': widget.imageUrl,
+      'Recipe': widget.steps,
+      'Ingredients': widget.ing,
+      'RecipeName': widget.title,
+      'RecipeTime': widget.duration,
     });
   }
 
   Future unFavorite() async {
-    isfav = false;
+    setState(() {
+      isfav = false;
+    });
+
     final FirebaseAuth auth = FirebaseAuth.instance;
     var currentUser = auth.currentUser;
     CollectionReference collectionRef =
@@ -63,7 +102,7 @@ class itemCards extends StatelessWidget {
     return collectionRef
         .doc(currentUser!.email)
         .collection("items")
-        .doc(title)
+        .doc(widget.title)
         .delete();
   }
 
@@ -71,12 +110,44 @@ class itemCards extends StatelessWidget {
     CollectionReference collectionRef =
         FirebaseFirestore.instance.collection("Items");
     return collectionRef
-        .doc(country)
-        .collection(country)
-        .doc(category)
-        .collection(category)
-        .doc(docID)
+        .doc(widget.country)
+        .collection(widget.country)
+        .doc(widget.category)
+        .collection(widget.category)
+        .doc(widget.docID)
         .delete();
+  }
+
+  void _delete(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext ctx) {
+          return Directionality(
+            textDirection: TextDirection.rtl,
+            child: AlertDialog(
+              title: const Text('برجاء التأكيد'),
+              content: Text("هل انت متأكد من مسح ${widget.title}؟"),
+              actions: [
+                // The "Yes" button
+                TextButton(
+                    onPressed: () {
+                      delete();
+                      setState(() {});
+
+                      // Close the dialog
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('نعم')),
+                TextButton(
+                    onPressed: () {
+                      // Close the dialog
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('لا'))
+              ],
+            ),
+          );
+        });
   }
 
   var _auth = FirebaseAuth.instance;
@@ -108,7 +179,7 @@ class itemCards extends StatelessWidget {
                         topRight: Radius.circular(15),
                       ),
                       child: Image.network(
-                        imageUrl,
+                        widget.imageUrl,
                         height: 200,
                         width: double.infinity,
                         fit: BoxFit.cover,
@@ -122,7 +193,7 @@ class itemCards extends StatelessWidget {
                         color: Colors.black54,
                         padding:
                             EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                        child: Text(title,
+                        child: Text(widget.title,
                             style: TextStyle(fontSize: 26, color: Colors.white),
                             softWrap: true,
                             overflow: TextOverflow.fade),
@@ -139,37 +210,41 @@ class itemCards extends StatelessWidget {
                         children: [
                           Icon(Icons.timer),
                           SizedBox(width: 6),
-                          Text("$duration ق"),
+                          Text("${widget.duration} ق"),
                         ],
                       ),
-                      Row(
-                        children: [
-                          FavoriteButton(
-                            iconColor: Colors.red,
-                            iconDisabledColor: Colors.black,
-                            valueChanged: (_isFavorite) {
-                              if (isfav == false) {
-                                addToFavorite();
-                              } else if (isfav == true) {
-                                unFavorite();
-                              }
-                            },
-                          ),
-                        ],
+                      Container(
+                        margin: EdgeInsets.only(right: 150),
+                        child: Row(
+                          children: [
+                            _auth.currentUser?.email == 'admin@gmail.com'
+                                ? IconButton(
+                                    iconSize: 25,
+                                    onPressed: () => _delete(context),
+                                    icon: Icon(Icons.delete),
+                                    color: Colors.red,
+                                  )
+                                : IconButton(
+                                    onPressed: () =>
+                                        isfav ? unFavorite() : addToFavorite(),
+                                    icon: isfav
+                                        ? Icon(Icons.favorite_sharp)
+                                        : Icon(Icons.favorite_border)),
+                          ],
+                        ),
                       ),
                       Visibility(
                           child: Row(
                             children: [
                               IconButton(
-                                onPressed: () => delete(),
-                                icon: Icon(Icons.delete),
-                                color: Colors.red,
+                                onPressed: () => sharing(),
+                                icon: Icon(Icons.share),
                               ),
                             ],
                           ),
                           visible: _auth.currentUser?.email == 'admin@gmail.com'
-                              ? true
-                              : false),
+                              ? false
+                              : true),
                     ],
                   ),
                 ),

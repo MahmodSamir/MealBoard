@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'countryItems.dart';
-import 'itemCardsV2.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../widgets/countryItems.dart';
+import '../widgets/itemCardsV2.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -78,13 +78,12 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
           title: Row(children: [
             Image(
-              image: AssetImage('assets/LogoGOLD.png'),
+              image: AssetImage('assets/MealBoard.png'),
               fit: BoxFit.cover,
-              height: 145,
-              width: 145,
-              alignment: Alignment.bottomRight,
+              height: 50,
+              width: 50,
             ),
-            Text("الرئيسية"),
+            Container(margin: EdgeInsets.only(left: 60),child: Text("MEALBOARD",style: TextStyle(fontWeight: FontWeight.w800),)),
           ]),
           backgroundColor: Color(0xff174354),
           automaticallyImplyLeading: false,

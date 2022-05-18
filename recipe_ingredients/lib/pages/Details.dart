@@ -1,16 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:recipe_ingredients/widgets/itemCards.dart';
+import 'package:share_plus/share_plus.dart';
 import 'imgEdit.dart';
 import 'ingEdit.dart';
 import 'stepsEdit.dart';
 import '../widgets/itemCards.dart';
-import 'globals.dart' as globals;
 
 class Details extends StatefulWidget {
- 
- final String ing;
+  final String ing;
   final String steps;
   final String url;
   final String duration;
@@ -19,13 +17,14 @@ class Details extends StatefulWidget {
   final String country;
   final String docID;
 
-  Details(this.name, this.url, this.duration,this.ing, this.steps, this.category,
-      this.country, this.docID);
- 
-   State<Details> createState() => _Details();
+  Details(this.name, this.url, this.duration, this.ing, this.steps,
+      this.category, this.country, this.docID);
+
+  State<Details> createState() => _Details();
 }
+
 class _Details extends State<Details> {
-   bool _isFavorited = true;
+  bool _isFavorited = false;
 
   Widget buildSectionTitle(BuildContext ctx, String text) {
     return Container(
@@ -37,12 +36,10 @@ class _Details extends State<Details> {
     );
   }
 
- 
-
   Widget buildContainer(Widget child) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.grey[100],
           border: Border.all(color: Colors.black),
           borderRadius: BorderRadius.circular(10)),
       margin: EdgeInsets.all(10),
@@ -59,44 +56,144 @@ class _Details extends State<Details> {
     User? user = _auth.currentUser?.email as User?;
     logedInUSer = user?.email;
   }
-   @override
+
+  @override
   Widget build(BuildContext context) {
-    final itemCards fav = new itemCards(widget.url, widget.name, widget.duration, widget.ing, widget.steps, widget.category, widget.country, widget.docID); 
+    final itemCards fav = new itemCards(
+        widget.url,
+        widget.name,
+        widget.duration,
+        widget.ing,
+        widget.steps,
+        widget.category,
+        widget.country,
+        widget.docID);
     final FirebaseAuth auth = FirebaseAuth.instance;
-isfav()
-  async {
-    final snap =await FirebaseFirestore.instance.collection("users-favorites").doc(auth.currentUser!.email)
-        .collection("items")
-        .doc(widget.name).get();
-     if(snap.exists && _isFavorited){
-       setState(() {
-       _isFavorited = false;  
-        fav.unFavorite();
-       });
-       
 
-      
-     }
-     
-     else{
-       setState(() {
-       _isFavorited=true;  
-            fav.addToFavorite();           
+    Future addToFavorite() async {
+      //isfav = true;
+      final FirebaseAuth auth = FirebaseAuth.instance;
+      var currentUser = auth.currentUser;
+      CollectionReference collectionRef =
+          FirebaseFirestore.instance.collection("users-favorites");
+      return collectionRef
+          .doc(currentUser!.email)
+          .collection("items")
+          .doc(widget.name)
+          .set({
+        'url': widget.url,
+        'Recipe': widget.steps,
+        'Ingredients': widget.ing,
+        'RecipeName': widget.name,
+        'RecipeTime': widget.duration,
+      });
+    }
 
-       });
-      
-     
+    Future unFavorite() async {
+      // isfav = false;
+      final FirebaseAuth auth = FirebaseAuth.instance;
+      var currentUser = auth.currentUser;
+      CollectionReference collectionRef =
+          FirebaseFirestore.instance.collection("users-favorites");
+      return collectionRef
+          .doc(currentUser!.email)
+          .collection("items")
+          .doc(widget.name)
+          .delete();
     }
+
+    Future delete() async {
+      CollectionReference collectionRef =
+          FirebaseFirestore.instance.collection("Items");
+      return collectionRef
+          .doc(widget.country)
+          .collection(widget.country)
+          .doc(widget.category)
+          .collection(widget.category)
+          .doc(widget.docID)
+          .delete();
     }
-    /*void _toggleFavorite() {
-  setState(() {
-    if (_isFavorited) {
-      _isFavorited = false;
-    } else {
-      _isFavorited = true;
+
+    isfav() async {
+      final snap = await FirebaseFirestore.instance
+          .collection("users-favorites")
+          .doc(auth.currentUser!.email)
+          .collection("items")
+          .doc(widget.name)
+          .get();
+      if (snap.exists && _isFavorited) {
+        setState(() {
+          _isFavorited = false;
+          unFavorite();
+        });
+      } else {
+        setState(() {
+          _isFavorited = true;
+          addToFavorite();
+        });
+      }
     }
-  });
-}*/
+
+    sharing() {
+      try {
+        Share.share("مشاركة وصفة ${widget.name} من تطبيق كذا"
+            "\n\n\n"
+            "مدة التحضير"
+            "\t"
+            "${widget.duration} دقيقة"
+            "\n\n\n"
+            "المكونات"
+            "\n"
+            "${widget.ing}"
+            "\n\n\n"
+            "طريقة التحضير"
+            "\n"
+            "${widget.steps}"
+            "\n\n\n"
+            "صورة"
+            "\n\n"
+            "${widget.url}");
+      } catch (e) {
+        print(e);
+      }
+    }
+
+    bool _isShown = true;
+
+    void _delete(BuildContext context) {
+      showDialog(
+          context: context,
+          builder: (BuildContext ctx) {
+            return Directionality(
+              textDirection: TextDirection.rtl,
+              child: AlertDialog(
+                title: const Text('برجاء التأكيد'),
+                content: Text("هل انت متأكد من مسح ${widget.name}؟"),
+                actions: [
+                  // The "Yes" button
+                  TextButton(
+                      onPressed: () {
+                        delete();
+                        setState(() {
+                          Navigator.of(context).pop();
+                        });
+
+                        // Close the dialog
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('نعم')),
+                  TextButton(
+                      onPressed: () {
+                        // Close the dialog
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('لا'))
+                ],
+              ),
+            );
+          });
+    }
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
@@ -120,21 +217,28 @@ isfav()
                   fit: BoxFit.cover,
                 ),
               ),
-              Visibility(
-                  child: IconButton(
-                    padding: EdgeInsets.symmetric(horizontal: 350),
-                    iconSize: 45,
-                    onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    imgEdit(widget.category, widget.country, widget.docID, widget.name)))
-                        .then((value) => Navigator.of(context).pop()),
-                    icon: Icon(Icons.photo_camera_back_outlined),
-                  ),
-                  visible: _auth.currentUser?.email == 'admin@gmail.com'
-                      ? true
-                      : false),
+              IconButton(
+                  padding: EdgeInsets.symmetric(horizontal: 350),
+                  iconSize: 35,
+                  onPressed: () => _auth.currentUser?.email == 'admin@gmail.com'
+                      ? Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => imgEdit(
+                                        widget.category,
+                                        widget.country,
+                                        widget.docID,
+                                        widget.name,
+                                        widget.ing,
+                                        widget.steps,
+                                        widget.url,
+                                        widget.duration,
+                                      )))
+                          .then((value) => Navigator.of(context).pop())
+                      : sharing(),
+                  icon: _auth.currentUser?.email == 'admin@gmail.com'
+                      ? Icon(Icons.photo_camera_back_outlined)
+                      : Icon(Icons.share)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -145,7 +249,14 @@ isfav()
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ingEdit(
-                                        widget.category, widget.country, widget.docID, widget.name)))
+                                        widget.category,
+                                        widget.country,
+                                        widget.docID,
+                                        widget.name,
+                                        widget.ing,
+                                        widget.steps,
+                                        widget.url,
+                                        widget.duration)))
                             .then((value) => Navigator.of(context).pop()),
                         icon: Icon(Icons.edit),
                       ),
@@ -156,9 +267,8 @@ isfav()
               ),
               buildContainer(
                 ListView.builder(
-                  itemBuilder: (ctx, index) =>
-                      Card(
-                    color: Colors.grey,
+                  itemBuilder: (ctx, index) => Card(
+                    color: Colors.grey[100],
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 5, horizontal: 10),
@@ -178,7 +288,14 @@ isfav()
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => stepsEdit(
-                                        widget.category, widget.country, widget.docID, widget.name)))
+                                        widget.category,
+                                        widget.country,
+                                        widget.docID,
+                                        widget.name,
+                                        widget.ing,
+                                        widget.steps,
+                                        widget.url,
+                                        widget.duration)))
                             .then((value) => Navigator.of(context).pop()),
                         icon: Icon(Icons.edit),
                       ),
@@ -189,8 +306,8 @@ isfav()
               ),
               buildContainer(
                 ListView.builder(
-                  itemBuilder: (ctx, index) =>  Card(
-                    color: Colors.grey,
+                  itemBuilder: (ctx, index) => Card(
+                    color: Colors.grey[100],
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 5, horizontal: 10),
@@ -204,16 +321,17 @@ isfav()
           ),
         ),
       ),
-    
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xff449f96),
-        onPressed: ()=> isfav(),
-        child: 
-        Icon(
-          _isFavorited ?   Icons.favorite : Icons.favorite_border_outlined  
-          ),
-      ),
+          backgroundColor: Color(0xff449f96),
+          onPressed: () => _auth.currentUser?.email == 'admin@gmail.com'
+              ? _delete(context)
+              : isfav(),
+          child: _auth.currentUser?.email == 'admin@gmail.com'
+              ? Icon(Icons.delete)
+              : Icon(_isFavorited
+                  ? Icons.favorite_sharp
+                  : Icons.favorite_border)),
     );
+                                        
   }
-
 }

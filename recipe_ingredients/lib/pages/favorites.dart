@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:recipe_ingredients/widgets/itemCards.dart';
+import '../widgets/itemCards.dart';
 
 class Favorites extends StatelessWidget {
   final _firestore = FirebaseFirestore.instance;

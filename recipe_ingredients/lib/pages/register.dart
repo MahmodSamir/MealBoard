@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -64,7 +64,7 @@ class _RegisterState extends State<Register> {
                           height: 3,
                         ),
                         Text(
-                          'انشئ حساب جديد',
+                          'اشتراك',
                           style: TextStyle(fontSize: 20),
                         ),
                         SizedBox(
@@ -127,7 +127,7 @@ class _RegisterState extends State<Register> {
                                   visiblityPassword
                                       ? Icons.visibility
                                       : Icons.visibility_off,
-                                  color: Colors.indigo),
+                                  color: Colors.teal[500]),
                               onPressed: () {
                                 setState(() {
                                   visiblityPassword = !visiblityPassword;
@@ -159,7 +159,7 @@ class _RegisterState extends State<Register> {
                     )),
                 FlatButton(
                     color: Colors.teal[500],
-                    padding: EdgeInsets.all(20),
+                    padding: EdgeInsets.all(10),
                     onPressed: () async {
                       if (_formkey.currentState!.validate()) {
                         var connectivityResult =
@@ -207,24 +207,37 @@ class _RegisterState extends State<Register> {
                       }
                     },
                     child: Text(
-                      'انشئ',
+                      'انشاء حساب',
                       style: TextStyle(fontSize: 20),
                     )),
                 SizedBox(
                   height: 10,
                 ),
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    'هل تملك حساب بالفعل؟',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.blue,
+                Container(
+                  margin: EdgeInsets.only(right: 40),
+                  child: Row(children: [
+                    Text(
+                      'هل تملك حساب بالفعل؟',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black38,
+                      ),
                     ),
-                  ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        'سجل الدخول.  ',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    )
+                  ]),
                 )
               ],
             ),

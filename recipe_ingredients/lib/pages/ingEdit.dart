@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:recipe_ingredients/pages/Details.dart';
 
 class ingEdit extends StatefulWidget {
   final String category;
   final String country;
   final String docID;
   final String title;
+  final String ing;
+  final String steps;
+  final String url;
+  final String duration;
 
-  const ingEdit(this.category, this.country, this.docID, this.title);
+  const ingEdit(this.category, this.country, this.docID, this.title, this.ing,
+      this.steps, this.url, this.duration);
 
   @override
   _ingEditState createState() => _ingEditState();
@@ -33,7 +39,7 @@ class _ingEditState extends State<ingEdit> {
         backgroundColor: Color(0xff174354),
         title: Text(
           " تحديث مكونات ${widget.title}",
-          style: TextStyle(fontSize: 15),
+          style: TextStyle(fontSize: 20),
         ),
       ),
       body: Directionality(
@@ -56,10 +62,10 @@ class _ingEditState extends State<ingEdit> {
                     },
                   ),
                 ),
-                Padding(padding: EdgeInsets.all(30)),
+                Padding(padding: EdgeInsets.all(10)),
                 ButtonTheme(
                   height: 50,
-                  minWidth: 80,
+                  minWidth: 150,
                   child: RaisedButton(
                     onPressed: () async {
                       _firestore
@@ -71,7 +77,18 @@ class _ingEditState extends State<ingEdit> {
                           .doc(widget.docID)
                           .update({
                         'Ingredients': Ingredients,
-                      }).then((value) => Navigator.of(context).pop());
+                      }).then((value) => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Details(
+                                      widget.title,
+                                      widget.url,
+                                      widget.duration,
+                                      Ingredients,
+                                      widget.steps,
+                                      widget.category,
+                                      widget.country,
+                                      widget.docID))));
                     },
                     child: Text(
                       'حدث المكونات',

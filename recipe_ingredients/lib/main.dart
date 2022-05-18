@@ -1,7 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'pages/login.dart';
-
+import 'package:firebase_core/firebase_core.dart';
+import 'pages/splash.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,11 +22,11 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'وصفات',
+      title: 'MealBoard',
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
-      home: Login(),
+      home: Splash(),
     );
   }
 }

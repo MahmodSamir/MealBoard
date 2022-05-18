@@ -1,11 +1,8 @@
- 
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-
 import 'chat.dart';
 import 'login.dart';
-import 'myProfile.dart';
 
 class adminAcc extends StatefulWidget {
   const adminAcc({Key? key}) : super(key: key);
@@ -30,7 +27,7 @@ class _adminAccState extends State<adminAcc> {
           title: Directionality(
               textDirection: TextDirection.rtl,
               child: Text(
-                'الاعدادات',
+                'الحساب',
                 style: TextStyle(fontSize: 20),
               )),
         ),
@@ -39,7 +36,7 @@ class _adminAccState extends State<adminAcc> {
           child: Column(
             children: [
               SizedBox(height: 20),
-             ProfileMenu(
+              ProfileMenu(
                 text: 'تواصل مع العملاء',
                 icon: Icons.chat_bubble_rounded,
                 onpressed: () {
@@ -62,10 +59,11 @@ class _adminAccState extends State<adminAcc> {
           ),
         ),
       ),
-    ); 
+    );
   }
-  }
-              class ProfileMenu extends StatelessWidget {
+}
+
+class ProfileMenu extends StatelessWidget {
   const ProfileMenu(
       {Key? key,
       required this.text,

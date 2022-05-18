@@ -77,7 +77,7 @@ class _AddState extends State<Add> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: ()async=>false,
+      onWillPop: () async => false,
       child: ModalProgressHUD(
         inAsyncCall: showSpinner,
         child: Scaffold(
@@ -91,7 +91,7 @@ class _AddState extends State<Add> {
               textDirection: TextDirection.rtl,
               child: Text(
                 "أضف وصفة جديدة",
-            style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 20),
               ),
             ),
           ),
@@ -141,8 +141,8 @@ class _AddState extends State<Add> {
                         margin: EdgeInsets.all(20),
                         child: TextFormField(
                           controller: ctrl1,
-                          validator: RequiredValidator(
-                              errorText: 'خانة مطلوبة'),
+                          validator:
+                              RequiredValidator(errorText: 'خانة مطلوبة'),
                           decoration: InputDecoration(
                             labelText: 'اسم الوصفة',
                             labelStyle: TextStyle(fontSize: 20),
@@ -158,8 +158,8 @@ class _AddState extends State<Add> {
                         margin: EdgeInsets.all(20),
                         child: TextFormField(
                           controller: ctrl2,
-                          validator: RequiredValidator(
-                              errorText: 'خانة مطلوبة'),
+                          validator:
+                              RequiredValidator(errorText: 'خانة مطلوبة'),
                           decoration: InputDecoration(
                             labelText: 'مدة التحضير',
                             labelStyle: TextStyle(fontSize: 20),
@@ -177,8 +177,8 @@ class _AddState extends State<Add> {
                           margin: EdgeInsets.all(20),
                           child: TextFormField(
                             controller: ctrl3,
-                            validator: RequiredValidator(
-                                errorText: 'خانة مطلوبة'),
+                            validator:
+                                RequiredValidator(errorText: 'خانة مطلوبة'),
                             decoration: InputDecoration(
                               labelText: 'المكونات',
                               labelStyle: TextStyle(fontSize: 20),
@@ -193,8 +193,8 @@ class _AddState extends State<Add> {
                           margin: EdgeInsets.all(20),
                           child: TextFormField(
                             controller: ctrl4,
-                            validator: RequiredValidator(
-                                errorText: 'خانة مطلوبة'),
+                            validator:
+                                RequiredValidator(errorText: 'خانة مطلوبة'),
                             decoration: InputDecoration(
                               labelText: 'خطوات التحضير',
                               labelStyle: TextStyle(fontSize: 20),
@@ -220,8 +220,11 @@ class _AddState extends State<Add> {
                                   country = val;
                                 });
                               },
-                              items: <String>['مصر','المغرب','سوريا']
-                                  .map<DropdownMenuItem<String>>((String value) {
+                              items: <String>[
+                                'مصر',
+                                'المغرب',
+                                'سوريا'
+                              ].map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   child: Text(value),
                                   value: value,
@@ -244,8 +247,11 @@ class _AddState extends State<Add> {
                                   category = val;
                                 });
                               },
-                              items: <String>['دجاج','المقبلات','مأكولات بحرية']
-                                  .map<DropdownMenuItem<String>>((String value) {
+                              items: <String>[
+                                'دجاج',
+                                'المقبلات',
+                                'مأكولات بحرية'
+                              ].map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   child: Text(value),
                                   value: value,
@@ -268,26 +274,35 @@ class _AddState extends State<Add> {
                                   .doc(category)
                                   .collection(category)
                                   .add({
-                                'url': downloadUrl,
-                                'Recipe': Recipe,
-                                'Ingredients': Ingredients,
-                                'RecipeName': RecipeName,
-                                'RecipeTime': RecipeTime,
-                              }).then((value) => ctrl1.clear()).then((value) => ctrl2.clear()).then((value) => ctrl3.clear()).then((value) => ctrl4.clear());
-                              
-                            
-                             _firestore
-                                 .collection("Items")
-                                 .doc(country)
-                                 .set({'dummy': country});
-                           _firestore
-                                 .collection("Items").doc(country).collection(country)
-                                 .doc(category)
+                                    'url': downloadUrl,
+                                    'Recipe': Recipe,
+                                    'Ingredients': Ingredients,
+                                    'RecipeName': RecipeName,
+                                    'RecipeTime': RecipeTime,
+                                  })
+                                  .then((value) => ctrl1.clear())
+                                  .then((value) => ctrl2.clear())
+                                  .then((value) => ctrl3.clear())
+                                  .then((value) => ctrl4.clear())
+                                  .then((value) => Scaffold.of(context)
+                                      .showSnackBar(SnackBar(
+                                          content:
+                                              Text("تم اضافة ${RecipeName}"))));
+
+                            _firestore
+                                .collection("Items")
+                                .doc(country)
+                                .set({'dummy': country});
+                            _firestore
+                                .collection("Items")
+                                .doc(country)
+                                .collection(country)
+                                .doc(category)
                                 .set({'dummy': category});
                           },
-                          child: Text('اضف العنصر',style: TextStyle(fontSize:20)),
-                          style: ElevatedButton.styleFrom(primary: Colors.teal)
-                          ,
+                          child: Text('اضف العنصر',
+                              style: TextStyle(fontSize: 20)),
+                          style: ElevatedButton.styleFrom(primary: Colors.teal),
                         ),
                       ),
                     ],

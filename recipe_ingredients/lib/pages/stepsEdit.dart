@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:recipe_ingredients/pages/Details.dart';
 
 class stepsEdit extends StatefulWidget {
   final String category;
   final String country;
   final String docID;
   final String title;
-  const stepsEdit(this.category, this.country, this.docID, this.title);
+  final String ing;
+  final String steps;
+  final String url;
+  final String duration;
+
+  const stepsEdit(this.category, this.country, this.docID, this.title, this.ing,
+      this.steps, this.url, this.duration);
 
   @override
   _stepsEditState createState() => _stepsEditState();
@@ -35,7 +42,7 @@ class _stepsEditState extends State<stepsEdit> {
         backgroundColor: Color(0xff174354),
         title: Text(
           "تحديث طريقة تحضير ${widget.title}",
-          style: TextStyle(fontSize: 15),
+          style: TextStyle(fontSize: 20),
         ),
       ),
       body: Directionality(
@@ -58,7 +65,7 @@ class _stepsEditState extends State<stepsEdit> {
                     },
                   ),
                 ),
-                Padding(padding: EdgeInsets.all(30)),
+                Padding(padding: EdgeInsets.all(10)),
                 ButtonTheme(
                   height: 60,
                   minWidth: 80,
@@ -73,7 +80,18 @@ class _stepsEditState extends State<stepsEdit> {
                           .doc(widget.docID)
                           .update({
                         'Recipe': Recipe,
-                      }).then((value) => Navigator.of(context).pop());
+                      }).then((value) => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Details(
+                                      widget.title,
+                                      widget.url,
+                                      widget.duration,
+                                      widget.ing,
+                                      Recipe,
+                                      widget.category,
+                                      widget.country,
+                                      widget.docID))));
                     },
                     child: Text('حدث الطريقة',
                         style: TextStyle(color: Colors.white, fontSize: 20)),

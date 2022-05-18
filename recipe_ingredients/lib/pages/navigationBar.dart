@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_ingredients/pages/account.dart';
-import 'package:recipe_ingredients/pages/favorites.dart';
-import 'package:recipe_ingredients/pages/filtercountries.dart';
-import 'package:recipe_ingredients/pages/home.dart';
-import 'package:recipe_ingredients/pages/search.dart';
+import 'account.dart';
+import 'favorites.dart';
+import 'filtercountries.dart';
+import 'home.dart';
+import 'search.dart';
 
 class bottomNavBar extends StatefulWidget {
   const bottomNavBar({Key? key}) : super(key: key);
@@ -21,23 +21,18 @@ class _bottomNavBarState extends State<bottomNavBar> {
     pages = [
       {
         'page': Home(),
-        'label': "الرئيسية",
       },
       {
         'page': FilterCountry(),
-        'label': "البلاد",
       },
       {
         'page': Favorites(),
-        'label': "المفضلة",
       },
       {
         'page': Account(),
-        'label': "الحساب",
       },
       {
         'page': Search(),
-        'label': "بحث",
       },
     ];
     super.initState();
@@ -60,15 +55,26 @@ class _bottomNavBarState extends State<bottomNavBar> {
         unselectedItemColor: Colors.black,
         currentIndex: selectPageIndex,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "الرئيسية"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "الرئيسية"
+            ),
           BottomNavigationBarItem(
             icon: Icon(Icons.filter_alt),
-            label: "الاقسام",
+            label: "التصنيفات",
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "المفضلة"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle), label: "حسابي"),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "بحث"),
+            icon: Icon(Icons.favorite),
+            label: "المفضلات"
+            ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle),
+              label: "حسابي"
+              ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: "بحث"
+            ),
         ],
       ),
     );

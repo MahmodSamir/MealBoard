@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_ingredients/widgets/itemCards.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../widgets/itemCards.dart';
 
 class Recipes extends StatelessWidget {
   final String category;
