@@ -62,7 +62,7 @@ class category_items extends StatelessWidget {
                 child: Text(title,
                     textDirection: TextDirection.rtl,
                     style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 16,
                         color: Colors.white,
                         fontWeight: FontWeight.bold),
                     softWrap: true,

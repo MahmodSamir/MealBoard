@@ -29,7 +29,7 @@ class Filter extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.data?.size == 0) {
             return Center(
-                child: Text("!لا يوجد عناصر، راسلنا لاضافة مقترحاتك"));
+                child: Text("!لا توجد وصفات، راسلنا لاضافة مقترحاتك"));
           } else {
             return GridView.builder(
               padding: EdgeInsets.all(25),

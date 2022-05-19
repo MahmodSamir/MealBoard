@@ -55,36 +55,37 @@ class _adminNavBarState extends State<adminNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*   appBar: AppBar(
-        title: Text(pages[selectPageIndex]['label']),
-        backgroundColor: Color(0xff174354),
-        ),*/
-
       body: pages[selectPageIndex]['page'],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: selectPage,
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.teal[500],
-        unselectedItemColor: Colors.black,
-        currentIndex: selectPageIndex,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "الرئيسية"
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+            border: Border(top: BorderSide(color: Colors.black, width: 1.0))),
+        child: BottomNavigationBar(
+          onTap: selectPage,
+          backgroundColor: Colors.white,
+          selectedItemColor: Colors.teal[500],
+          selectedFontSize: 15,
+          unselectedItemColor: Colors.black,
+          currentIndex: selectPageIndex,
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home, size: 30), label: "الرئيسية"),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.filter_alt, size: 30),
+              label: "التصنيفات",
             ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.filter_alt),
-            label: "التصنيفات",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: "اضافة",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: "الحساب",
-          ),
-        ],
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add, size: 30),
+              label: "اضافة",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.account_circle,
+                size: 30,
+              ),
+              label: "الحساب",
+            ),
+          ],
+        ),
       ),
     );
   }

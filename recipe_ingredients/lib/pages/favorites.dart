@@ -16,7 +16,7 @@ class Favorites extends StatelessWidget {
           appBar: AppBar(
             centerTitle: true,
             title: Text(
-              "المفضلة",
+              "قائمة المفضلة",
               style: TextStyle(fontSize: 20),
             ),
             backgroundColor: Color(0xff174354),

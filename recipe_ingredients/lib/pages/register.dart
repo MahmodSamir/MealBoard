@@ -39,36 +39,27 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Color(0xff174354),
-        centerTitle: true,
-        title: Text(
-          "انشاء حساب جديد",
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
       body: Directionality(
         textDirection: TextDirection.rtl,
         child: Builder(builder: (context) {
           return ModalProgressHUD(
             inAsyncCall: spinner,
             child: ListView(
-              padding: EdgeInsets.all(15),
+              padding: EdgeInsets.all(25),
               children: [
                 Form(
                     key: _formkey,
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 3,
+                          height: 30,
                         ),
                         Text(
-                          'اشتراك',
-                          style: TextStyle(fontSize: 20),
+                          'انشاء حساب جديد',
+                          style: TextStyle(fontSize: 25),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 30,
                         ),
                         TextFormField(
                           validator: nameValidator,
@@ -158,7 +149,7 @@ class _RegisterState extends State<Register> {
                       ],
                     )),
                 FlatButton(
-                    color: Colors.teal[500],
+                    color: Colors.teal[600],
                     padding: EdgeInsets.all(10),
                     onPressed: () async {
                       if (_formkey.currentState!.validate()) {
@@ -208,11 +199,14 @@ class _RegisterState extends State<Register> {
                     },
                     child: Text(
                       'انشاء حساب',
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 20, color: Colors.white),
                     )),
                 SizedBox(
-                  height: 10,
+                  height: 40,
                 ),
+                Divider(
+                    height: 2, indent: 10, endIndent: 10, color: Colors.black),
+                SizedBox(height: 30),
                 Container(
                   margin: EdgeInsets.only(right: 40),
                   child: Row(children: [
@@ -221,7 +215,7 @@ class _RegisterState extends State<Register> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 18,
-                        color: Colors.black38,
+                        color: Colors.black54,
                       ),
                     ),
                     InkWell(
@@ -233,7 +227,7 @@ class _RegisterState extends State<Register> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.blue,
+                          color: Colors.blue[700],
                         ),
                       ),
                     )

@@ -28,6 +28,32 @@ class itemCards extends StatefulWidget {
 
 class _itemCardsState extends State<itemCards> {
   bool isfav = false;
+  bool _isFavorited = false;
+  var auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    checkFav();
+  }
+
+  checkFav() async {
+    final snap = await FirebaseFirestore.instance
+        .collection("users-favorites")
+        .doc(auth.currentUser!.email)
+        .collection("items")
+        .doc(widget.title)
+        .get();
+    if (snap.exists) {
+      setState(() {
+        _isFavorited = true;
+      });
+    } else {
+      setState(() {
+        _isFavorited = false;
+      });
+    }
+  }
 
   void selectMeal(BuildContext ctx) {
     Navigator.push(
@@ -128,19 +154,15 @@ class _itemCardsState extends State<itemCards> {
               title: const Text('برجاء التأكيد'),
               content: Text("هل انت متأكد من مسح ${widget.title}؟"),
               actions: [
-                // The "Yes" button
                 TextButton(
                     onPressed: () {
                       delete();
                       setState(() {});
-
-                      // Close the dialog
                       Navigator.of(context).pop();
                     },
                     child: const Text('نعم')),
                 TextButton(
                     onPressed: () {
-                      // Close the dialog
                       Navigator.of(context).pop();
                     },
                     child: const Text('لا'))
@@ -159,6 +181,26 @@ class _itemCardsState extends State<itemCards> {
 
   @override
   Widget build(BuildContext context) {
+    isfav() async {
+      final snap = await FirebaseFirestore.instance
+          .collection("users-favorites")
+          .doc(auth.currentUser!.email)
+          .collection("items")
+          .doc(widget.title)
+          .get();
+      if (snap.exists && _isFavorited) {
+        setState(() {
+          _isFavorited = false;
+          unFavorite();
+        });
+      } else {
+        setState(() {
+          _isFavorited = true;
+          addToFavorite();
+        });
+      }
+    }
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: SingleChildScrollView(
@@ -194,7 +236,10 @@ class _itemCardsState extends State<itemCards> {
                         padding:
                             EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                         child: Text(widget.title,
-                            style: TextStyle(fontSize: 26, color: Colors.white),
+                            style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
                             softWrap: true,
                             overflow: TextOverflow.fade),
                       ),
@@ -208,43 +253,55 @@ class _itemCardsState extends State<itemCards> {
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.timer),
+                          Icon(Icons.timer, size: 30),
                           SizedBox(width: 6),
-                          Text("${widget.duration} ق"),
+                          Text(
+                            "${widget.duration} ق",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
                         ],
                       ),
-                      Container(
-                        margin: EdgeInsets.only(right: 150),
-                        child: Row(
-                          children: [
-                            _auth.currentUser?.email == 'admin@gmail.com'
-                                ? IconButton(
-                                    iconSize: 25,
-                                    onPressed: () => _delete(context),
-                                    icon: Icon(Icons.delete),
-                                    color: Colors.red,
-                                  )
-                                : IconButton(
-                                    onPressed: () =>
-                                        isfav ? unFavorite() : addToFavorite(),
-                                    icon: isfav
-                                        ? Icon(Icons.favorite_sharp)
-                                        : Icon(Icons.favorite_border)),
-                          ],
-                        ),
-                      ),
                       Visibility(
-                          child: Row(
-                            children: [
-                              IconButton(
-                                onPressed: () => sharing(),
-                                icon: Icon(Icons.share),
-                              ),
-                            ],
+                          child: Container(
+                            margin: EdgeInsets.only(right: 150),
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () => isfav(),
+                                  icon: _isFavorited
+                                      ? Icon(
+                                          Icons.favorite_sharp,
+                                          color: Colors.red,
+                                        )
+                                      : Icon(Icons.favorite_border),
+                                  iconSize: 30,
+                                ),
+                              ],
+                            ),
                           ),
                           visible: _auth.currentUser?.email == 'admin@gmail.com'
                               ? false
                               : true),
+                      Row(
+                        children: [
+                          _auth.currentUser?.email == 'admin@gmail.com'
+                              ? Container(
+                                  margin: EdgeInsets.only(right: 200),
+                                  child: IconButton(
+                                    onPressed: () => _delete(context),
+                                    icon: Icon(Icons.delete),
+                                    color: Colors.red,
+                                    iconSize: 30,
+                                  ),
+                                )
+                              : IconButton(
+                                  onPressed: () => sharing(),
+                                  icon: Icon(Icons.share),
+                                  iconSize: 30,
+                                ),
+                        ],
+                      ),
                     ],
                   ),
                 ),

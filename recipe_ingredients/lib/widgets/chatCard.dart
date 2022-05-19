@@ -11,7 +11,7 @@ class ChatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: (isMe) ? Colors.teal : Colors.white,
+          color: (isMe) ? Color(0xff005c4b) : Color(0xff174354),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
@@ -19,8 +19,8 @@ class ChatCard extends StatelessWidget {
             bottomRight: (isMe) ? Radius.circular(0) : Radius.circular(20),
           )),
       margin: (isMe)
-          ? EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.5)
-          : EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.5),
+          ? EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.32)
+          : EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.32),
       child: Container(
         child: Padding(
           padding: EdgeInsets.all(10),
@@ -29,9 +29,26 @@ class ChatCard extends StatelessWidget {
                 ? CrossAxisAlignment.end
                 : CrossAxisAlignment.start,
             children: [
-              Text(Sender),
-              Divider(height: 5,color: Colors.black,),
-              Text(Msg),
+              Container(
+                  child: Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Text(Sender,
+                          style: TextStyle(
+                              color: Colors.white70,
+                              fontWeight: FontWeight.bold)))),
+              Divider(
+                height: 5,
+                color: Colors.black87,
+                indent: 10,
+                endIndent: 0,
+              ),
+              Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: Text(Msg,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15))),
             ],
           ),
         ),

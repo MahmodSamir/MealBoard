@@ -61,7 +61,7 @@ class _myProfileState extends State<myProfile> {
                     _auth.currentUser!.email ?? "",
                     style: TextStyle(
                       fontSize: 20,
-                      color: Colors.deepPurple[800],
+                      color: Colors.indigo[800],
                     ),
                   ),
                 ),
@@ -83,25 +83,7 @@ class _myProfileState extends State<myProfile> {
                         },
                       ),
                     ),
-                    Padding(padding: EdgeInsets.all(15)),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ResetPassword()),
-                        );
-                      },
-                      child: Text(
-                        "نسيت كلمة المرور؟",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.blue,
-                        ),
-                      ),
-                    ),
-                    Padding(padding: EdgeInsets.all(30)),
+                    Padding(padding: EdgeInsets.all(10)),
                     RaisedButton(
                       onPressed: () async {
                         _auth.currentUser!
@@ -116,7 +98,25 @@ class _myProfileState extends State<myProfile> {
                       },
                       child: Text('حدث البريد الالكتروني',
                           style: TextStyle(color: Colors.white, fontSize: 20)),
-                      color: Colors.teal[500],
+                      color: Colors.teal[700],
+                    ),
+                    Padding(padding: EdgeInsets.all(10)),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ResetPassword()),
+                        );
+                      },
+                      child: Text(
+                        "نسيت كلمة المرور؟",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.blue[700],
+                        ),
+                      ),
                     ),
                   ],
                 )

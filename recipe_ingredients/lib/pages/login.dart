@@ -34,33 +34,27 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
-      appBar: AppBar(
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        backgroundColor: Color(0xff174354),
-        title: Text(
-          "تسجيل الدخول",
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
+      backgroundColor: Colors.grey[200],
       body: Directionality(
         textDirection: TextDirection.rtl,
         child: Builder(builder: (context) {
           return ModalProgressHUD(
             inAsyncCall: spinner,
             child: ListView(
-              padding: EdgeInsets.all(15),
+              padding: EdgeInsets.all(25),
               children: [
                 Container(
-                  
-                  child: Image(image: AssetImage('assets/MealBoard.png'),height: 100,width:100,)),
+                    margin: EdgeInsets.only(top: 50),
+                    child: Image(
+                        image: AssetImage('assets/MealBoard.png'),
+                        height: 150,
+                        width: 150)),
                 Form(
                     key: _formkey,
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 10,
+                          height: 30,
                         ),
                         TextFormField(
                           validator: email_vaildator,
@@ -110,7 +104,7 @@ class _LoginState extends State<Login> {
                       ],
                     )),
                 FlatButton(
-                    color: Colors.teal[500],
+                    color: Colors.teal[600],
                     padding: EdgeInsets.all(10),
                     onPressed: () async {
                       if (_formkey.currentState!.validate()) {
@@ -159,40 +153,11 @@ class _LoginState extends State<Login> {
                       }
                     },
                     child: Text(
-                      'الدخول',
-                      style: TextStyle(fontSize: 20),
+                      'تسجيل الدخول',
+                      style: TextStyle(fontSize: 20, color: Colors.white),
                     )),
                 SizedBox(
                   height: 30,
-                ),
-              Container(
-                  margin: EdgeInsets.only(right: 70),
-                  child: Row(children: [
-                    Text(
-                      'لا تملك حساب؟',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black38,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Register()));
-                      },
-                      child: Text(
-                        'اشترك الان.  ',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.blue,
-                        ),
-                      ),
-                    )
-                  ]),
-                ),
-                SizedBox(
-                  height: 10,
                 ),
                 InkWell(
                     onTap: () {
@@ -210,11 +175,48 @@ class _LoginState extends State<Login> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 18,
-                            color: Colors.blue[600],
+                            color: Colors.blue[700],
                           ),
                         ),
                       ]),
-                    ))
+                    )),
+                SizedBox(
+                  height: 20,
+                ),
+                Divider(
+                    height: 2, indent: 10, endIndent: 10, color: Colors.black),
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  margin: EdgeInsets.only(right: 70),
+                  child: Row(children: [
+                    Text(
+                      'لا تملك حساب؟',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Register()));
+                      },
+                      child: Text(
+                        'اشترك الان.  ',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.blue[700],
+                        ),
+                      ),
+                    )
+                  ]),
+                ),
               ],
             ),
           );

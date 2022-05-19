@@ -81,6 +81,7 @@ class _imgEditState extends State<imgEdit> {
                 children: <Widget>[
                   Padding(padding: EdgeInsets.all(30)),
                   Card(
+                      color: Colors.grey[300],
                       child: (_image != null)
                           ? Image.file(
                               _image,
@@ -100,6 +101,7 @@ class _imgEditState extends State<imgEdit> {
                         Text(
                           'اضف صورة',
                           style: TextStyle(
+                            fontSize: 25,
                             color: Colors.teal[600],
                             decoration: TextDecoration.underline,
                           ),
@@ -107,6 +109,7 @@ class _imgEditState extends State<imgEdit> {
                         Icon(
                           Icons.add_circle,
                           color: Colors.teal[500],
+                          size: 25,
                         ),
                       ],
                     ),

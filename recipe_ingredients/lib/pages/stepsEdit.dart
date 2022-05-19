@@ -52,7 +52,7 @@ class _stepsEditState extends State<stepsEdit> {
             child: ListView(
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.all(30),
+                  margin: EdgeInsets.all(50),
                   child: TextField(
                     decoration: InputDecoration(
                       labelText: 'ادخل طريقة التحضير',
@@ -67,8 +67,8 @@ class _stepsEditState extends State<stepsEdit> {
                 ),
                 Padding(padding: EdgeInsets.all(10)),
                 ButtonTheme(
-                  height: 60,
-                  minWidth: 80,
+                  height: 50,
+                  minWidth: 150,
                   child: RaisedButton(
                     onPressed: () async {
                       _firestore

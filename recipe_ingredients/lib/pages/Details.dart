@@ -25,13 +25,37 @@ class Details extends StatefulWidget {
 
 class _Details extends State<Details> {
   bool _isFavorited = false;
+  var auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    checkFav();
+  }
+
+  checkFav() async {
+    final snap = await FirebaseFirestore.instance
+        .collection("users-favorites")
+        .doc(auth.currentUser!.email)
+        .collection("items")
+        .doc(widget.name)
+        .get();
+    if (snap.exists) {
+      setState(() {
+        _isFavorited = true;
+      });
+    } else {
+      setState(() {
+        _isFavorited = false;
+      });
+    }
+  }
 
   Widget buildSectionTitle(BuildContext ctx, String text) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
       child: Text(
         text,
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -68,10 +92,8 @@ class _Details extends State<Details> {
         widget.category,
         widget.country,
         widget.docID);
-    final FirebaseAuth auth = FirebaseAuth.instance;
 
     Future addToFavorite() async {
-      //isfav = true;
       final FirebaseAuth auth = FirebaseAuth.instance;
       var currentUser = auth.currentUser;
       CollectionReference collectionRef =
@@ -90,7 +112,6 @@ class _Details extends State<Details> {
     }
 
     Future unFavorite() async {
-      // isfav = false;
       final FirebaseAuth auth = FirebaseAuth.instance;
       var currentUser = auth.currentUser;
       CollectionReference collectionRef =
@@ -167,27 +188,34 @@ class _Details extends State<Details> {
             return Directionality(
               textDirection: TextDirection.rtl,
               child: AlertDialog(
-                title: const Text('برجاء التأكيد'),
-                content: Text("هل انت متأكد من مسح ${widget.name}؟"),
+                title: const Text('برجاء التأكيد',
+                    style:
+                        TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                content: Text("هل انت متأكد من مسح ${widget.name}؟",
+                    style: TextStyle(
+                      fontSize: 20,
+                    )),
                 actions: [
-                  // The "Yes" button
                   TextButton(
                       onPressed: () {
                         delete();
                         setState(() {
                           Navigator.of(context).pop();
                         });
-
-                        // Close the dialog
                         Navigator.of(context).pop();
                       },
-                      child: const Text('نعم')),
+                      child: const Text(
+                        'نعم',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      )),
                   TextButton(
                       onPressed: () {
-                        // Close the dialog
                         Navigator.of(context).pop();
                       },
-                      child: const Text('لا'))
+                      child: const Text('لا',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold)))
                 ],
               ),
             );
@@ -210,7 +238,7 @@ class _Details extends State<Details> {
           child: Column(
             children: [
               Container(
-                height: 300,
+                height: 200,
                 width: double.infinity,
                 child: Image.network(
                   widget.url,
@@ -218,8 +246,8 @@ class _Details extends State<Details> {
                 ),
               ),
               IconButton(
-                  padding: EdgeInsets.symmetric(horizontal: 350),
-                  iconSize: 35,
+                  padding: EdgeInsets.symmetric(horizontal: 380),
+                  iconSize: 45,
                   onPressed: () => _auth.currentUser?.email == 'admin@gmail.com'
                       ? Navigator.push(
                               context,
@@ -245,6 +273,7 @@ class _Details extends State<Details> {
                   buildSectionTitle(context, "المكونات"),
                   Visibility(
                       child: IconButton(
+                        iconSize: 25,
                         onPressed: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -272,7 +301,9 @@ class _Details extends State<Details> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 5, horizontal: 10),
-                      child: Text(widget.ing),
+                      child: Text(widget.ing,
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w600)),
                     ),
                   ),
                   itemCount: 1,
@@ -284,6 +315,7 @@ class _Details extends State<Details> {
                   buildSectionTitle(context, "طريقة التحضير"),
                   Visibility(
                       child: IconButton(
+                        iconSize: 25,
                         onPressed: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -311,7 +343,11 @@ class _Details extends State<Details> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 5, horizontal: 10),
-                      child: Text(widget.steps),
+                      child: Text(
+                        widget.steps,
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.w600),
+                      ),
                     ),
                   ),
                   itemCount: 1,
@@ -327,11 +363,13 @@ class _Details extends State<Details> {
               ? _delete(context)
               : isfav(),
           child: _auth.currentUser?.email == 'admin@gmail.com'
-              ? Icon(Icons.delete)
-              : Icon(_isFavorited
-                  ? Icons.favorite_sharp
-                  : Icons.favorite_border)),
+              ? Icon(
+                  Icons.delete,
+                  size: 30,
+                )
+              : Icon(
+                  _isFavorited ? Icons.favorite_sharp : Icons.favorite_border,
+                  size: 25)),
     );
-                                        
   }
 }

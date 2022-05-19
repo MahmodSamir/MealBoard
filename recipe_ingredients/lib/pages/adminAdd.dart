@@ -106,6 +106,7 @@ class _AddState extends State<Add> {
                     children: <Widget>[
                       Padding(padding: EdgeInsets.all(5)),
                       Card(
+                          color: Colors.grey[300],
                           child: (_image != null)
                               ? Image.file(
                                   _image,
@@ -115,8 +116,8 @@ class _AddState extends State<Add> {
                                 )
                               : Image(
                                   image: AssetImage('assets/upload.png'),
-                                  width: 80,
-                                  height: 80,
+                                  width: 100,
+                                  height: 100,
                                 )),
                       InkWell(
                         child: Row(
@@ -125,6 +126,7 @@ class _AddState extends State<Add> {
                             Text(
                               'أضف صورة',
                               style: TextStyle(
+                                fontSize: 20,
                                 color: Colors.teal[600],
                                 decoration: TextDecoration.underline,
                               ),
@@ -132,6 +134,7 @@ class _AddState extends State<Add> {
                             Icon(
                               Icons.add_circle,
                               color: Colors.teal[500],
+                              size: 20,
                             ),
                           ],
                         ),
@@ -285,23 +288,17 @@ class _AddState extends State<Add> {
                                   .then((value) => ctrl3.clear())
                                   .then((value) => ctrl4.clear())
                                   .then((value) => Scaffold.of(context)
-                                      .showSnackBar(SnackBar(
-                                          content:
-                                              Text("تم اضافة ${RecipeName}"))));
-
-                            _firestore
-                                .collection("Items")
-                                .doc(country)
-                                .set({'dummy': country});
-                            _firestore
-                                .collection("Items")
-                                .doc(country)
-                                .collection(country)
-                                .doc(category)
-                                .set({'dummy': category});
+                                          .showSnackBar(SnackBar(
+                                              content: Text(
+                                        "تم اضافة ${RecipeName}",
+                                        style: TextStyle(fontSize: 10),
+                                      ))));
                           },
-                          child: Text('اضف العنصر',
-                              style: TextStyle(fontSize: 20)),
+                          child: Text('اضف الوصفة',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
                           style: ElevatedButton.styleFrom(primary: Colors.teal),
                         ),
                       ),

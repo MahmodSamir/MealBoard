@@ -37,8 +37,8 @@ class _adminAccState extends State<adminAcc> {
             children: [
               SizedBox(height: 20),
               ProfileMenu(
-                text: 'تواصل مع العملاء',
-                icon: Icons.chat_bubble_rounded,
+                text: 'تواصل مع المستخدمين',
+                icon: Icons.chat_rounded,
                 onpressed: () {
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) => Chat()));
@@ -90,7 +90,10 @@ class ProfileMenu extends StatelessWidget {
             SizedBox(
               width: 20,
             ),
-            Expanded(child: Text(text)),
+            Expanded(
+                child: Text(text,
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.w600))),
             Icon(Icons.arrow_forward_ios_rounded),
           ],
         ),

@@ -48,34 +48,31 @@ class _bottomNavBarState extends State<bottomNavBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: pages[selectPageIndex]['page'],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: selectPage,
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.teal[500],
-        unselectedItemColor: Colors.black,
-        currentIndex: selectPageIndex,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "الرئيسية"
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+            border: Border(top: BorderSide(color: Colors.black, width: 1.0))),
+        child: BottomNavigationBar(
+          onTap: selectPage,
+          backgroundColor: Colors.white,
+          selectedItemColor: Colors.teal[500],
+          selectedFontSize: 15,
+          unselectedItemColor: Colors.black,
+          currentIndex: selectPageIndex,
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home, size: 30), label: "الرئيسية"),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.filter_alt, size: 30),
+              label: "التصنيفات",
             ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.filter_alt),
-            label: "التصنيفات",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: "المفضلات"
-            ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
-              label: "حسابي"
-              ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: "بحث"
-            ),
-        ],
+            BottomNavigationBarItem(
+                icon: Icon(Icons.favorite, size: 30), label: "المفضلات"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle, size: 30), label: "حسابي"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.search, size: 30), label: "بحث"),
+          ],
+        ),
       ),
     );
   }
