@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:recipe_ingredients/pages/Details.dart';
 import '../widgets/countryItems.dart';
 import '../widgets/itemCardsV2.dart';
 
@@ -35,7 +36,7 @@ class _HomeState extends State<Home> {
               itemBuilder: (context, i) {
                 QueryDocumentSnapshot x = snapshot.data!.docs[i];
                 return itemCards2(x['url'], x['RecipeName'], x['RecipeTime'],
-                    x['Ingredients'], x['Recipe'], "", "", x.id);
+                    x['Ingredients'], x['Recipe'], cnts[i], cats[i], x.id);
               });
         }
       },
@@ -60,6 +61,38 @@ class _HomeState extends State<Home> {
         }
       },
     );
+  }
+  Randoms(var title, var url, var dur, var ing, var stps, var cat, var cnt, var IDs){
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => Details(
+              title,
+              url,
+              dur,
+              ing,
+              stps,
+              cat,
+              cnt,
+              IDs)),
+    );
+  }
+  random() {
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection("Items")
+          .doc("مصر")
+          .collection("مصر")
+          .doc(cats[0])
+          .collection(cats[0])
+          .snapshots(),
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            QueryDocumentSnapshot x = snapshot.data!.docs[1];
+                return Randoms(x['url'], x['RecipeName'], x['RecipeTime'],
+                    x['Ingredients'], x['Recipe'], "مصر", cats[0], x.id);
+        }
+    );
+     
   }
 
   @override
@@ -130,6 +163,7 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
+        floatingActionButton: FloatingActionButton(onPressed: () => random(),),
       ),
     );
   }
