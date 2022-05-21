@@ -27,7 +27,7 @@ class _HomeState extends State<Home> {
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         } else if (snapshot.data?.size == 0) {
-          return Center(child: Text("لا يوجد وصفات"));
+          return Center(child: Text(".الوصفات غير متوفرة"));
         } else {
           return ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         } else if (snapshot.data?.size == 0) {
-          return Center(child: Text("لا يوجد مطابخ"));
+          return Center(child: Text(".المطابخ غير متوفرة"));
         } else {
           return ListView.builder(
               itemCount: 2,

@@ -264,7 +264,7 @@ class _itemCardsState extends State<itemCards> {
                       ),
                       Visibility(
                           child: Container(
-                            margin: EdgeInsets.only(right: 150),
+                            margin: EdgeInsets.only(right: 120),
                             child: Row(
                               children: [
                                 IconButton(
@@ -287,7 +287,7 @@ class _itemCardsState extends State<itemCards> {
                         children: [
                           _auth.currentUser?.email == 'admin@gmail.com'
                               ? Container(
-                                  margin: EdgeInsets.only(right: 200),
+                                  margin: EdgeInsets.only(right: 180),
                                   child: IconButton(
                                     onPressed: () => _delete(context),
                                     icon: Icon(Icons.delete),

@@ -34,7 +34,7 @@ class Recipes extends StatelessWidget {
               if (!snapshot.hasData) {
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.data?.size == 0) {
-                return Center(child: Text("تواصل معنا لاضافة وصفتك"));
+                return Center(child: Text(".تواصل معنا للاقتراحات"));
               }
               return ListView.builder(
                   itemCount: snapshot.data!.docs.length,

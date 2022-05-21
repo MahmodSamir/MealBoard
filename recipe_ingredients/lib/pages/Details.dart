@@ -246,7 +246,7 @@ class _Details extends State<Details> {
                 ),
               ),
               IconButton(
-                  padding: EdgeInsets.symmetric(horizontal: 380),
+                  padding: EdgeInsets.symmetric(horizontal: 340),
                   iconSize: 45,
                   onPressed: () => _auth.currentUser?.email == 'admin@gmail.com'
                       ? Navigator.push(

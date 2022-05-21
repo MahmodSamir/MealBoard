@@ -33,7 +33,7 @@ class _ResetPasswordState extends State<ResetPassword> {
             ),
             Form(
               child: Padding(
-                padding: EdgeInsets.all(20),
+                padding: EdgeInsets.all(25),
                 child: TextFormField(
                   validator: MultiValidator([
                     EmailValidator(errorText: 'البريد الالكتروني غير صالح'),
@@ -60,13 +60,16 @@ class _ResetPasswordState extends State<ResetPassword> {
                   height: 50,
                   minWidth: 80,
                   child: FlatButton(
-                      color: Colors.teal[500],
+                      color: Colors.teal[600],
                       padding: EdgeInsets.symmetric(horizontal: 90),
                       onPressed: () {
-                        _auth.sendPasswordResetEmail(email: email);
+                        _auth.sendPasswordResetEmail(email: email).then((value) => Scaffold.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text(
+                                        'تم تحديث البريد الالكتروني بنجاح'))));
                         Navigator.of(context).pop();
                       },
-                      child: Text('ارسل',
+                      child: Text('ارسل الطلب',
                           style: TextStyle(color: Colors.white, fontSize: 20))),
                 ),
               ],
