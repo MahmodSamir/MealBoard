@@ -1,4 +1,4 @@
-# recipe_ingredients
+# MealBoard
 
 A new Flutter project.
 
