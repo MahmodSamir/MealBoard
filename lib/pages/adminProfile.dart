@@ -45,7 +45,7 @@ class _adminAccState extends State<adminAcc> {
                 },
               ),
               ProfileMenu(
-                text: 'تسجيل خروج',
+                text: 'تسجيل الخروج',
                 icon: Icons.logout,
                 onpressed: () {
                   _auth.signOut();

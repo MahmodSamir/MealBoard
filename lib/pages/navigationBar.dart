@@ -55,6 +55,7 @@ class _bottomNavBarState extends State<bottomNavBar> {
           onTap: selectPage,
           selectedItemColor: Colors.teal[500],
           selectedFontSize: 15,
+          showUnselectedLabels: false,
           unselectedItemColor: Colors.black,
           currentIndex: selectPageIndex,
           items: const [
@@ -65,7 +66,7 @@ class _bottomNavBarState extends State<bottomNavBar> {
               label: "التصنيفات",
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.favorite, size: 25), label: "المفضلات"),
+                icon: Icon(Icons.favorite, size: 25), label: "المفضلة"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.account_circle, size: 25), label: "حسابي"),
             BottomNavigationBarItem(

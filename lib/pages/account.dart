@@ -29,7 +29,7 @@ class _AccountState extends State<Account> {
           title: Directionality(
               textDirection: TextDirection.rtl,
               child: Text(
-                'الاعدادات',
+                'الحساب',
                 style: TextStyle(fontSize: 20),
               )),
         ),
@@ -39,7 +39,7 @@ class _AccountState extends State<Account> {
             children: [
               SizedBox(height: 20),
               ProfileMenu(
-                text: 'حسابي',
+                text: 'اعدادات الحساب',
                 icon: Icons.account_circle,
                 onpressed: () {
                   Navigator.push(context,
@@ -55,7 +55,7 @@ class _AccountState extends State<Account> {
                 },
               ),
               ProfileMenu(
-                text: 'عنا',
+                text: 'عن المطورين',
                 icon: Icons.info,
                 onpressed: () {
                   Navigator.push(context,
@@ -63,7 +63,7 @@ class _AccountState extends State<Account> {
                 },
               ),
               ProfileMenu(
-                text: 'تسجيل خروج',
+                text: 'تسجيل الخروج',
                 icon: Icons.logout,
                 onpressed: () {
                   _auth.signOut();
