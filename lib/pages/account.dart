@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:recipe_ingredients/pages/about.dart';
 import 'chat.dart';
 import 'login.dart';
 import 'myProfile.dart';
@@ -20,7 +21,7 @@ class _AccountState extends State<Account> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.grey[200],
         appBar: AppBar(
           centerTitle: true,
           automaticallyImplyLeading: false,
@@ -56,7 +57,10 @@ class _AccountState extends State<Account> {
               ProfileMenu(
                 text: 'عنا',
                 icon: Icons.info,
-                onpressed: () {},
+                onpressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => About()));
+                },
               ),
               ProfileMenu(
                 text: 'تسجيل خروج',
@@ -97,7 +101,7 @@ class ProfileMenu extends StatelessWidget {
         padding: EdgeInsets.all(20),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         onPressed: onpressed,
-        color: Color(0xfff5f6f9),
+        color: Colors.white,
         child: Row(
           children: [
             Icon(icon),

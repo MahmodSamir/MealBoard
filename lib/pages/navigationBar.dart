@@ -53,7 +53,6 @@ class _bottomNavBarState extends State<bottomNavBar> {
             border: Border(top: BorderSide(color: Colors.black, width: 1.0))),
         child: BottomNavigationBar(
           onTap: selectPage,
-          backgroundColor: Colors.white,
           selectedItemColor: Colors.teal[500],
           selectedFontSize: 15,
           unselectedItemColor: Colors.black,

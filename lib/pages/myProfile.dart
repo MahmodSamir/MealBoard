@@ -27,7 +27,7 @@ class _myProfileState extends State<myProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -57,7 +57,7 @@ class _myProfileState extends State<myProfile> {
                   alignment: Alignment.center,
                 ),
                 Center(
-                  child: Text(
+                  child: SelectableText(
                     _auth.currentUser!.email ?? "",
                     style: TextStyle(
                       fontSize: 20,

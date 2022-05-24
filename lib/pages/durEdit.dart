@@ -3,7 +3,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:recipe_ingredients/pages/Details.dart';
 
-class stepsEdit extends StatefulWidget {
+class durEdit extends StatefulWidget {
   final String category;
   final String country;
   final String docID;
@@ -13,19 +13,16 @@ class stepsEdit extends StatefulWidget {
   final String url;
   final String duration;
 
-  const stepsEdit(this.category, this.country, this.docID, this.title, this.ing,
+  const durEdit(this.category, this.country, this.docID, this.title, this.ing,
       this.steps, this.url, this.duration);
 
   @override
-  _stepsEditState createState() => _stepsEditState();
+  _durEditState createState() => _durEditState();
 }
 
-class _stepsEditState extends State<stepsEdit> {
+class _durEditState extends State<durEdit> {
   final _firestore = FirebaseFirestore.instance;
-  late var Recipe;
-
-  late String recipe;
-
+  late var dur;
   bool showSpinner = false;
 
   @override
@@ -41,7 +38,7 @@ class _stepsEditState extends State<stepsEdit> {
         centerTitle: true,
         backgroundColor: Color(0xff174354),
         title: Text(
-          "تحديث طريقة تحضير ${widget.title}",
+          " تحديث مدة تحضير ${widget.title}",
           style: TextStyle(fontSize: 20),
         ),
       ),
@@ -54,14 +51,15 @@ class _stepsEditState extends State<stepsEdit> {
                 Container(
                   margin: EdgeInsets.all(50),
                   child: TextField(
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      labelText: 'ادخل طريقة التحضير',
+                      labelText: 'ادخل مدة التحضير',
                       labelStyle: TextStyle(fontSize: 20),
                       border: OutlineInputBorder(),
                     ),
                     maxLines: 7,
                     onChanged: (val) {
-                      Recipe = val;
+                      dur = val;
                     },
                   ),
                 ),
@@ -79,22 +77,24 @@ class _stepsEditState extends State<stepsEdit> {
                           .collection(widget.category)
                           .doc(widget.docID)
                           .update({
-                        'Recipe': Recipe,
+                        'RecipeTime': dur,
                       }).then((value) => Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => Details(
                                       widget.title,
                                       widget.url,
-                                      widget.duration,
+                                      dur,
                                       widget.ing,
-                                      Recipe,
+                                      widget.steps,
                                       widget.category,
                                       widget.country,
                                       widget.docID))));
                     },
-                    child: Text('حدث الطريقة',
-                        style: TextStyle(color: Colors.white, fontSize: 20)),
+                    child: Text(
+                      'حدث المدة',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
                     color: Colors.teal[500],
                   ),
                 ),

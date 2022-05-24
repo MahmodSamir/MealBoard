@@ -13,7 +13,7 @@ class Recipes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.grey[200],
         appBar: AppBar(
           title: Text(
             category,
@@ -40,10 +40,6 @@ class Recipes extends StatelessWidget {
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, i) {
                     QueryDocumentSnapshot x = snapshot.data!.docs[i];
-                    var snap = snapshot.data!.docs;
-                    for (var item in snap) {
-                      String id = item.id;
-                    }
                     return itemCards(x['url'], x['RecipeName'], x['RecipeTime'],
                         x['Ingredients'], x['Recipe'], category, country, x.id);
                   });

@@ -12,8 +12,43 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<String> cnts = ["مصر", "المغرب"];
-  List<String> cats = ["دجاج", "مأكولات بحرية"];
+  List<String> cnts = [
+    'مصر',
+    'امريكا',
+    'ايطاليا',
+    'يونان',
+    'تركيا',
+    'اسبانيا',
+    'مكسيك',
+    'لبنان',
+    'العراق',
+    'تايلاند',
+    'المانيا',
+    'المغرب',
+    'باكستان',
+    'تونس',
+    'سوريا',
+    'فرنسا',
+    'كوريا',
+    'اليابان',
+    'الهند',
+    'ماليزيا',
+    'ليبيا',
+    'الجزائر',
+    'الاردن',
+    'الصين',
+    'هولاندا',
+    'سويسرا',
+    'دنمارك',
+  ];
+  List<String> cats = [
+    'دجاج',
+    'لحوم',
+    'مأكولات بحرية',
+    'مقبلات',
+    'معجنات',
+    'حلويات'
+  ];
 
   items(int i) {
     return StreamBuilder(
@@ -32,7 +67,7 @@ class _HomeState extends State<Home> {
         } else {
           return ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 2,
+              itemCount: 5,
               itemBuilder: (context, i) {
                 QueryDocumentSnapshot x = snapshot.data!.docs[i];
                 return itemCards2(x['url'], x['RecipeName'], x['RecipeTime'],
@@ -62,38 +97,6 @@ class _HomeState extends State<Home> {
       },
     );
   }
-  Randoms(var title, var url, var dur, var ing, var stps, var cat, var cnt, var IDs){
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => Details(
-              title,
-              url,
-              dur,
-              ing,
-              stps,
-              cat,
-              cnt,
-              IDs)),
-    );
-  }
-  random() {
-    return StreamBuilder(
-      stream: FirebaseFirestore.instance
-          .collection("Items")
-          .doc("مصر")
-          .collection("مصر")
-          .doc(cats[0])
-          .collection(cats[0])
-          .snapshots(),
-      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            QueryDocumentSnapshot x = snapshot.data!.docs[1];
-                return Randoms(x['url'], x['RecipeName'], x['RecipeTime'],
-                    x['Ingredients'], x['Recipe'], "مصر", cats[0], x.id);
-        }
-    );
-     
-  }
 
   @override
   void initState() {
@@ -107,7 +110,7 @@ class _HomeState extends State<Home> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.grey[200],
         appBar: AppBar(
           title: Row(children: [
             Image(
@@ -132,7 +135,7 @@ class _HomeState extends State<Home> {
               children: <Widget>[
                 Expanded(
                   child: SizedBox(
-                    height: 250.0,
+                    height: 200.0,
                     child: countries(),
                   ),
                 ),
@@ -163,7 +166,6 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(onPressed: () => random(),),
       ),
     );
   }

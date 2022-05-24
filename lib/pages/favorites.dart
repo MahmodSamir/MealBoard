@@ -12,7 +12,7 @@ class Favorites extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-          backgroundColor: Colors.grey[300],
+          backgroundColor: Colors.grey[200],
           appBar: AppBar(
             centerTitle: true,
             title: Text(

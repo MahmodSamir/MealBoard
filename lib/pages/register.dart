@@ -38,7 +38,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[200],
       body: Directionality(
         textDirection: TextDirection.rtl,
         child: Builder(builder: (context) {
@@ -52,34 +52,23 @@ class _RegisterState extends State<Register> {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 60,
+                          height: 50,
                         ),
-                       /* Text(
-                          'انشاء حساب جديد',
-                          style: TextStyle(fontSize: 20),
-                        ),*/
+                        Text(
+                          'انشئ حسابك',
+                          style: TextStyle(fontSize: 25),
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
                         TextFormField(
                           validator: nameValidator,
                           onChanged: (val) {
                             first_name = val;
                           },
                           decoration: const InputDecoration(
-                            hintText: "الاسم الاول",
-                            labelText: "الاسم الاول",
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                          validator: nameValidator,
-                          onChanged: (val) {
-                            last_name = val;
-                          },
-                          decoration: const InputDecoration(
-                            hintText: "الاسم الاخير",
-                            labelText: "اللقب",
+                            hintText: "الاسم بالكامل",
+                            labelText: "الاسم بالكامل",
                             border: OutlineInputBorder(),
                           ),
                         ),
@@ -126,22 +115,7 @@ class _RegisterState extends State<Register> {
                           ),
                         ),
                         SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                          validator: mobileValidator,
-                          keyboardType: TextInputType.phone,
-                          onChanged: (val) {
-                            mobile = val;
-                          },
-                          decoration: const InputDecoration(
-                            hintText: "رقم الهاتف",
-                            labelText: "رقم الهاتف",
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
+                          height: 60,
                         ),
                       ],
                     )),
@@ -161,21 +135,14 @@ class _RegisterState extends State<Register> {
                             spinner = true;
                           });
                           try {
-                            await _auth.createUserWithEmailAndPassword(
-                                email: email, password: password);
-                            FirebaseFirestore.instance
-                                .collection("users")
-                                .doc(email)
-                                .set({
-                              'firstName': first_name,
-                              'lastName': last_name,
-                              'email': email,
-                              'Mobile': mobile,
-                            });
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Login()));
+                            await _auth
+                                .createUserWithEmailAndPassword(
+                                    email: email, password: password)
+                                .then((value) => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Login())));
+
                             setState(() {
                               spinner = false;
                             });
@@ -199,7 +166,7 @@ class _RegisterState extends State<Register> {
                       style: TextStyle(fontSize: 20, color: Colors.white),
                     )),
                 SizedBox(
-                  height: 40,
+                  height: 80,
                 ),
                 Divider(
                     height: 2, indent: 10, endIndent: 10, color: Colors.black),

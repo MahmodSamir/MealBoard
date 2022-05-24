@@ -33,7 +33,7 @@ class _ingEditState extends State<ingEdit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Color(0xff174354),

@@ -61,7 +61,7 @@ class _imgEditState extends State<imgEdit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Color(0xff174354),
@@ -81,7 +81,7 @@ class _imgEditState extends State<imgEdit> {
                 children: <Widget>[
                   Padding(padding: EdgeInsets.all(30)),
                   Card(
-                      color: Colors.grey[300],
+                      color: Colors.grey[200],
                       child: (_image != null)
                           ? Image.file(
                               _image,

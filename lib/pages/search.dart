@@ -42,7 +42,7 @@ class _SearchState extends State<Search> {
       child: WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
-          backgroundColor: Colors.grey[300],
+          backgroundColor: Colors.grey[200],
           floatingActionButton: (FloatingActionButton(
             child: Icon(Icons.clear),
             onPressed: () {
